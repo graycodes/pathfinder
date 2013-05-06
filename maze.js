@@ -2,7 +2,6 @@ var canvas,ctx;
 var debug, debugStatusBar;
 var gridSize = 9;
 var squareSize = 50;//50
-var gridMargin = 10;
 var g = new Array();
 var xPos = 0, yPos = 4;
 var xEnd = 8, yEnd = 4;
@@ -19,7 +18,7 @@ q[0][1] = yPos;
 function initialise() {
 	debug = document.getElementById("debug");
 	debugStatusBar = document.getElementById("debugStatusBar");
-	canvas = document.getElementById("canvas");	
+	canvas = document.getElementById("canvas");
 	ctx = canvas.getContext("2d");
 	ctx.fillStyle = "rgb(180,200,220)";
 	ctx.globalAlpha = 1;
