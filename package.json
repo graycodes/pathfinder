@@ -1,0 +1,15 @@
+{
+    "name": "Pathfinder"
+  , "version": "0.0.1"
+  , "description": "Interactive path finding in JS"
+  , "keywords": ["path", "find", "pathfinder"]
+  , "author": "Gray MacGregor <gmacg.uk@gmail.com>"
+  , "main": "index"
+  , "engines": { "node": ">= 0.4.x < 0.7.0" }
+  , "scripts": {
+    "test": "make test"
+  }
+  , "devDependencies": {
+    "mocha": "0.3.x"
+  }
+}
