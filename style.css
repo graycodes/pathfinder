@@ -1,23 +1,23 @@
 @charset "utf-8";
 * {
-	margin:0;
-	padding:0;
+    margin:0;
+    padding:0;
 }
 #debug {
-	font-family:consolas;
-	font-size:0.75em;
-	background-color:#99bbdd;
+    font-family:Consolas, monospace;
+    font-size:0.75em;
+    background-color:#99bbdd;
 }
 #debugStatusBar {
-	font-family:consolas;
-	font-size:0.75em;
-	background-color:#9CC;
-	border-bottom:1px dotted #666;	
+    font-family:Consolas, monospace;
+    font-size:0.75em;
+    background-color:#9CC;
+    border-bottom:1px dotted #666;	
 }
 canvas {
-	background-color:#ffffff;
-	margin:1px;
+    background-color:#fff;
+    margin:1px;
 }
 body {
-	background-color:#eeeeee;
+    background-color:#eee;
 }
