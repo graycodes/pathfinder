@@ -5,15 +5,10 @@
   <link type="text/css" rel="stylesheet" href="style.css" />
 </head>
 
-<body onLoad="initialise()">
-	<canvas id="canvas" width="450" height="450"  onMouseMove="ctx_mouseMove(event);" onMouseUp="ctx_mouseUp(event);">
-	</canvas>
-	<div>
-		<button type="button" onClick="path()">Find Path</button>
-	</div>
-	<div id="debugStatusBar">
-	</div>
-	<div id="debug">
-	</div>
-        <script type="text/javascript" src="maze.js"></script>
+<body>
+
+  <script type="text/javascript" src="maze.js"></script>
+  <script src="gridSquare.js"></script>
+  <script src="maze-new.js"></script>
+
 </body>

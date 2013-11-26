@@ -11,6 +11,9 @@
   }
   , "devDependencies": {
     "mocha": "0.3.x",
-    "requirejs": "latest"
+    "jsdom": "latest",
+    "canvas": "latest",
+    "requirejs": "latest",
+    "expect.js": "latest"
   }
 }
