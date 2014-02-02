@@ -1,4 +1,5 @@
-(function (document) {
+var wrapper = function(Grid) {
+
     'use strict';
 
     function Debugging(document) {
@@ -34,7 +35,7 @@
         this.debug = new Debugging(document);
         this.debug.trace('New Maze!: ');
         
-        this.createGrid();
+        this.grid = this.createGrid();
 
     };
 
@@ -61,7 +62,7 @@
     };
     
     Maze.prototype.createGrid = function() {
-        var x = 0,
+/*        var x = 0,
             y = 0,
             gridSize = 9;
         this.grid = [];
@@ -71,7 +72,10 @@
                 this.grid[x][y] = 0;
             }
         }
-        return this.grid;
+        return this.grid;*/
+
+        return new Grid(9, this.ctx);
+        
     };
     
     Maze.prototype.getCanvas = function() {
@@ -82,12 +86,14 @@
         return this.ctx;
     };
 
-    if (typeof module != 'undefined') {
-        module.exports.Maze = Maze;
-    } else {
-        var m = new Maze(window.document);
-    }
-
     return Maze;
 
-}());
+};
+
+if (typeof define !== 'undefined') {
+    define(['./grid'], wrapper);
+} else {
+    if (typeof module !== 'undefined') {
+        module.exports.Maze = wrapper(require('./grid').Grid);
+    }
+}

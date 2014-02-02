@@ -1,18 +1,37 @@
-(function() {
+var wrapper = function() {
 
-    function GridSquare(x, y, hoverState) {
+    var TYPES = ['empty', 'starting', 'wall', 'path'];
+        
+    function GridSquare(x, y, context) {
         this.x = x;
         this.y = y;
-        this.hoverState = hoverState;
+        this.ctx = context;
+        this.type = TYPES[0];
+        this.size = 20;// width and height in px.
     };
 
-    GridSquare.prototype.initialise = function() {
-        
+    GridSquare.prototype.render = function() {
+        this.ctx.lineWidth = 2;
+        this.ctx.fillStyle = "#eeeeee";
+        this.ctx.strokeStyle = "#666666";
+        this.ctx.fillRect((this.x*this.size),
+                          (this.y*this.size),
+                          this.size,
+                          this.size);
+        this.ctx.strokeRect((this.x*this.size),
+                            (this.y*this.size),
+                            this.size,
+                            this.size);
     };
-
-    if (typeof module != 'undefined') {
-        module.exports.GridSquare = GridSquare;
-    }
 
     return GridSquare;
-}());
+    
+};
+
+if (typeof define !== 'undefined') {
+    define([], wrapper);
+} else {
+    if (typeof module !== 'undefined') {
+        module.exports.GridSquare = wrapper();
+    }
+}

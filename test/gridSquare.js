@@ -9,15 +9,21 @@ suite('Grid Square', function() {
         expect(gs).not.to.be(undefined);
     });
 
-    test('should save the state you pass in', function() {
+    test('should know where they are', function() {
         var x = 1,
             y = 2, 
-            hoverState = 3,
-            gs = new GridSquare(x, y, hoverState);
+            context = {},
+            gs = new GridSquare(x, y, context);
 
         expect(gs.x).to.be(x);
         expect(gs.y).to.be(y);
-        expect(gs.hoverState).to.be(hoverState);
+        expect(gs.ctx).to.be(context);
     });
+
+    test('should render themselves'); 
+
+    test('should know their type (staring, wall, path, empty)');
+
+    test('should listen for hover events');
 
 });

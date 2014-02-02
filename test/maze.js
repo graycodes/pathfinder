@@ -2,7 +2,8 @@ var assert = require('assert'),
     expect = require('expect.js'),
     jsdom  = require('jsdom').jsdom,
     window = jsdom().parentWindow,
-    Maze   = require('../maze-new').Maze;
+    Maze   = require('../maze-new').Maze,
+    Grid   = require('../grid.js').Grid;
 
 suite('The Maze', function() {
 
@@ -34,6 +35,6 @@ suite('The Maze', function() {
 
     test('should have a grid', function() {
         var maze = new Maze(window.document);
-        expect(maze.grid).to.be.an('array');
+        expect(maze.grid instanceof Grid).to.be(true);
     });
 });
