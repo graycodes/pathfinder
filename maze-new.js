@@ -1,4 +1,4 @@
-var wrapper = function(Grid) {
+var wrapper = function(minivents, Grid) {
 
     'use strict';
 
@@ -27,19 +27,24 @@ var wrapper = function(Grid) {
         this.debugStatusBar.innerHTML = str;
     };
 
-    function Maze(document) {
+    function Maze(window) {
 
-        this.createCanvas(document);
-        this.createButton(document);
+        this.createCanvas(window.document);
+        this.createButton(window.document);
 
-        this.debug = new Debugging(document);
+        this.debug = new Debugging(window.document);
         this.debug.trace('New Maze!: ');
+
+        this.size = 9;
+
+        window.events = new minivents();
         
-        this.grid = this.createGrid();
+        this.grid = new Grid(this.size, this.ctx, window);
 
     };
 
     Maze.prototype.createCanvas = function(document) {
+        var maze;
 
         this.canvas = document.createElement('canvas');
         this.canvas.width = 450;
@@ -50,6 +55,23 @@ var wrapper = function(Grid) {
         this.ctx.fillStyle = 'rgb(180, 200, 220)';
         this.ctx.globalAlpha = 1;
         
+        maze = this;
+
+        this.canvas.onmousemove = this.highlight;
+
+    };
+
+    Maze.prototype.highlight = function(event) {
+        var x = Math.floor(event.x / 40),
+            y = Math.floor(event.y / 40);
+
+        if (x >= maze.size  || y >= maze.size) {
+            return;
+        }
+
+        window.events.emit('hover');
+        
+        maze.grid.grid[x][y].hover();
     };
 
     Maze.prototype.createButton = function(document) {
@@ -60,24 +82,7 @@ var wrapper = function(Grid) {
         document.body.appendChild(button);
         
     };
-    
-    Maze.prototype.createGrid = function() {
-/*        var x = 0,
-            y = 0,
-            gridSize = 9;
-        this.grid = [];
-        for (; x < gridSize; x++) {
-            this.grid[x] = [];
-            for (y = 0; y < gridSize; y++) {
-                this.grid[x][y] = 0;
-            }
-        }
-        return this.grid;*/
 
-        return new Grid(9, this.ctx);
-        
-    };
-    
     Maze.prototype.getCanvas = function() {
         return this.canvas;
     };
@@ -91,9 +96,10 @@ var wrapper = function(Grid) {
 };
 
 if (typeof define !== 'undefined') {
-    define(['./grid'], wrapper);
+    define(['./minivents', './grid'], wrapper);
 } else {
     if (typeof module !== 'undefined') {
-        module.exports.Maze = wrapper(require('./grid').Grid);
+        module.exports.Maze = wrapper(require('./minivents'),
+                                      require('./grid').Grid);
     }
 }

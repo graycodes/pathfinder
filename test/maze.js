@@ -3,7 +3,10 @@ var assert = require('assert'),
     jsdom  = require('jsdom').jsdom,
     window = jsdom().parentWindow,
     Maze   = require('../maze-new').Maze,
-    Grid   = require('../grid.js').Grid;
+    Grid   = require('../grid.js').Grid,
+    Events = require('../minivents');
+
+window.events = new Events();
 
 suite('The Maze', function() {
 
@@ -13,7 +16,7 @@ suite('The Maze', function() {
 
     test('should not throw when constructing', function() {
         var constrMaze  = function() {
-            return new Maze(window.document);
+            return new Maze(window);
         };
 
         expect(constrMaze).not.to.throwException();
@@ -21,12 +24,12 @@ suite('The Maze', function() {
     });
     
     test('should have a canvas', function() {
-        var maze = new Maze(window.document);
+        var maze = new Maze(window);
         expect(maze.getCanvas()).to.be.an('object');
     });
 
     test('should have a context', function() {
-        var maze = new Maze(window.document);
+        var maze = new Maze(window);
         expect(maze.getContext()).to.be.an('object');
 
         expect(maze.getContext().fillStyle).not.to.be(undefined);
@@ -34,7 +37,7 @@ suite('The Maze', function() {
     });
 
     test('should have a grid', function() {
-        var maze = new Maze(window.document);
+        var maze = new Maze(window);
         expect(maze.grid instanceof Grid).to.be(true);
     });
 });

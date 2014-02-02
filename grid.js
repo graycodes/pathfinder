@@ -1,8 +1,9 @@
 var wrapper = function(GridSquare) {
     
-    function Grid(size, context) {
+    function Grid(size, context, window) {
         if (!size) throw 'Missing parameter: size';
         this.size = size;
+        this.window = window;
         this.grid = this.createGrid(this.size, context);// TODO better name?
     };
 
@@ -12,7 +13,7 @@ var wrapper = function(GridSquare) {
         for (x = 0; x < size; x++) {
             grid[x] = [];
             for (y = 0; y < size; y++) {
-                grid[x][y] = new GridSquare(x, y, context);
+                grid[x][y] = new GridSquare(x, y, context, this.window);
             }
         }        
         return grid;
