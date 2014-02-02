@@ -58,21 +58,31 @@ var wrapper = function(minivents, Grid) {
         maze = this;
 
         this.canvas.onmousemove = this.highlight;
+        this.canvas.onclick = this.setWall;
 
     };
 
-    Maze.prototype.highlight = function(event) {
-        var x = Math.floor(event.x / 40),
-            y = Math.floor(event.y / 40);
+    Maze.prototype.findSquare = function(xPos, yPos) {
+        var x = Math.floor(xPos / 40),
+            y = Math.floor(yPos / 40);
 
         if (x >= maze.size  || y >= maze.size) {
             return;
         }
 
+        return {x: x, y: y};
+    };
+
+    Maze.prototype.highlight = function(event) {
+        var square = maze.findSquare(event.x, event.y);
+        if (!square) return;
+
         window.events.emit('hover');
         
-        maze.grid.grid[x][y].hover();
+        maze.grid.grid[square.x][square.y].hover();
     };
+
+    Maze.prototype.setWall
 
     Maze.prototype.createButton = function(document) {
 
