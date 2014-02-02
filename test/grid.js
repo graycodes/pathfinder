@@ -1,12 +1,14 @@
 var assert = require('assert'),
     expect = require('expect.js'),
     GridSquare = require('../gridSquare').GridSquare,
-    Grid = require('../grid').Grid;
+    Grid = require('../grid').Grid,
+    window = require('jsdom').jsdom().parentWindow,
+    ctx = window.document.createElement('canvas').getContext('2d');
 
 suite('Grid', function() {
     
     test('should be defined', function() {
-        var g = new Grid(6);
+        var g = new Grid(6, ctx);
         expect(g).not.to.be(undefined);
     });
 
@@ -19,20 +21,20 @@ suite('Grid', function() {
 
     test('should have a size, passed in.', function() {
         var size = 9,
-            g = new Grid(size);
+            g = new Grid(size, ctx);
         expect(g.size).to.be(size);
     });
 
     test('should contain an array of gridSquares', function() {
         var size = 9,
-            g = new Grid(size);
+            g = new Grid(size, ctx);
         expect(g.grid.length).to.be(size);
     });
     
     test('should populate the array of gridSquares', function() {
         var size = 4,
-            g = new Grid(size);
-        expect(g.createGrid(size).length).to.be(size);
+            g = new Grid(size, ctx);
+        expect(g.createGrid(size, ctx).length).to.be(size);
     });
 
     test('should inform squares of their state');
