@@ -74,6 +74,16 @@ var wrapper = function() {
         }
     };
 
+    GridSquare.prototype.setWall = function() {
+        if (this.type === 2) { // Wall
+            this.type = 0;
+        } else if (this.type !== 1) {
+            this.type = 2;
+        }
+
+        this.draw();
+    };
+
     return GridSquare;
 
 };

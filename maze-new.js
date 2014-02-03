@@ -82,7 +82,13 @@ var wrapper = function(minivents, Grid) {
         maze.grid.grid[square.x][square.y].hover();
     };
 
-    Maze.prototype.setWall
+    Maze.prototype.setWall = function(event) {
+        var square = maze.findSquare(event.x, event.y);
+        if (!square) return;
+
+        maze.grid.grid[square.x][square.y].setWall();
+
+    };
 
     Maze.prototype.createButton = function(document) {
 
