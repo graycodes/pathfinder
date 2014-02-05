@@ -108,6 +108,7 @@ var wrapper = function(minivents, Grid) {
         var startingSquare = maze.grid.grid[maze.grid.ends.start.x][maze.grid.ends.start.y];
 
         maze.processQueue(startingSquare);
+        maze.addAdjacentTo(startingSquare);
     };
 
     Maze.prototype.processQueue = function(sq) {
@@ -116,33 +117,65 @@ var wrapper = function(minivents, Grid) {
         if (sq.x === maze.grid.ends.end.x &&
             sq.y === maze.grid.ends.end.y) {
             console.log('WINNER');
-        } else {
-            maze.addAdjacentTo(sq);
+            return true;
         }
     };
 
     Maze.prototype.addAdjacentTo = function(sq) {
-        var pos = {x: sq.x, y: sq.y - 1};
+        var toCheck = [],
+            found = false,
+            i = 0,
+            pos = {x: sq.x, y: sq.y - 1};
         if (pos.x >= 0 && pos.x < maze.grid.size &&
             pos.y >= 0 && pos.y < maze.grid.size) {
-            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
         }
         pos = {x: sq.x, y: sq.y + 1};
         if (pos.x >= 0 && pos.x < maze.grid.size &&
             pos.y >= 0 && pos.y < maze.grid.size) {
-            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
         }
         pos = {x: sq.x - 1, y: sq.y};
         if (pos.x >= 0 && pos.x < maze.grid.size &&
             pos.y >= 0 && pos.y < maze.grid.size) {
-            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
         }
         pos = {x: sq.x + 1, y: sq.y};
         if (pos.x >= 0 && pos.x < maze.grid.size &&
             pos.y >= 0 && pos.y < maze.grid.size) {
-            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
         }
 
+        for (; i < toCheck.length && !found; i++) {
+            if (toCheck[i]) {
+                found = maze.processQueue(toCheck[i]);
+            }
+        }
+        
+        if (found) {
+            console.log('winner');
+            console.log(toCheck[i-1]);
+            maze.setPath(toCheck[i-1]);
+        } else {
+            for (i = 0; i < toCheck.length; i++) {
+                if (toCheck[i]) {
+                    maze.addAdjacentTo(toCheck[i]);
+                }
+            }
+        }
+        
+    };
+
+    Maze.prototype.setPath = function(sq) {
+        //set the path back to the start
+        sq.setType(3);
+        console.log('setting path for ', sq);
+        console.log(sq.x, maze.grid.ends.start.x);
+        if (!(sq.x === maze.grid.ends.start.x &&
+            sq.y === maze.grid.ends.start.y)) {
+            console.log(maze.grid.grid[sq.from.x][sq.from.y]);
+            maze.setPath(maze.grid.grid[sq.from.x][sq.from.y]);
+        }
     };
 
     Maze.prototype.isSquare = function(sq) {
@@ -154,7 +187,8 @@ var wrapper = function(minivents, Grid) {
             sq.parsed = true;
             sq.from.x = prevSq.x;
             sq.from.y = prevSq.y;
-            maze.processQueue(sq);
+            return sq;
+            //maze.processQueue(sq);
         }
     };
 
