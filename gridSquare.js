@@ -1,6 +1,6 @@
 var wrapper = function() {
 
-    var TYPES = ['empty', 'starting', 'wall', 'path'];
+    var TYPES = ['empty', 'ends', 'wall', 'path'];
         
     function GridSquare(x, y, context, window) {
         this.x = x;
@@ -9,7 +9,9 @@ var wrapper = function() {
         this.type = 0;
         this.size = 40;// width and height in px.
         this.hovering = false;
-        
+        this.parsed = false;
+        this.from = {};
+
         window.events.on('hover', this.unhover.bind(this));
 
         this.draw();

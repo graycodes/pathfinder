@@ -5,10 +5,14 @@ var wrapper = function(GridSquare) {
         this.size = size;
         this.window = window;
         this.ends = {
-            startX: 0,
-            startY: Math.floor(size / 2),
-            endX:   size - 1,
-            endY:   Math.floor(size / 2)
+            start: {
+                x: 0,
+                y: Math.floor(size / 2)
+            },
+            end:{
+                x: size - 1,
+                y: Math.floor(size / 2)
+            }
         };
         this.grid = this.createGrid(this.size, context);// TODO better name?
     };
@@ -22,9 +26,10 @@ var wrapper = function(GridSquare) {
                 grid[x][y] = new GridSquare(x, y, context, this.window);
             }
         }
-
-        grid[this.ends.startX][this.ends.startY].setType(1);
-        grid[this.ends.endX][this.ends.endY].setType(1);
+        
+        // Set starting blocks.
+        grid[this.ends.start.x][this.ends.start.y].setType(1);
+        grid[this.ends.end.x][this.ends.end.y].setType(1);
 
         return grid;
     };

@@ -37,6 +37,8 @@ var wrapper = function(minivents, Grid) {
 
         this.size = 9;
 
+        this.path = [];
+
         window.events = new minivents();
         
         this.grid = new Grid(this.size, this.ctx, window);
@@ -44,7 +46,7 @@ var wrapper = function(minivents, Grid) {
     };
 
     Maze.prototype.createCanvas = function(document) {
-        var maze;
+        var maze = this;
 
         this.canvas = document.createElement('canvas');
         this.canvas.width = 450;
@@ -55,11 +57,8 @@ var wrapper = function(minivents, Grid) {
         this.ctx.fillStyle = 'rgb(180, 200, 220)';
         this.ctx.globalAlpha = 1;
         
-        maze = this;
-
         this.canvas.onmousemove = this.highlight;
         this.canvas.onclick = this.setWall;
-
     };
 
     Maze.prototype.findSquare = function(xPos, yPos) {
@@ -67,7 +66,7 @@ var wrapper = function(minivents, Grid) {
             y = Math.floor(yPos / 40);
 
         if (x >= maze.size  || y >= maze.size) {
-            return;
+            return undefined;
         }
 
         return {x: x, y: y};
@@ -96,7 +95,67 @@ var wrapper = function(minivents, Grid) {
         button.innerHTML = 'Find Path';
         
         document.body.appendChild(button);
+
+        button.onclick = this.findPath;
+
+        this.button = button;
         
+    };
+    
+    Maze.prototype.findPath = function() {
+        //starting at the start
+        //add the starting square to the list
+        var startingSquare = maze.grid.grid[maze.grid.ends.start.x][maze.grid.ends.start.y];
+
+        maze.processQueue(startingSquare);
+    };
+
+    Maze.prototype.processQueue = function(sq) {
+        //if the first item in the queue is the end, winner.
+        console.log(sq);
+        if (sq.x === maze.grid.ends.end.x &&
+            sq.y === maze.grid.ends.end.y) {
+            console.log('WINNER');
+        } else {
+            maze.addAdjacentTo(sq);
+        }
+    };
+
+    Maze.prototype.addAdjacentTo = function(sq) {
+        var pos = {x: sq.x, y: sq.y - 1};
+        if (pos.x >= 0 && pos.x < maze.grid.size &&
+            pos.y >= 0 && pos.y < maze.grid.size) {
+            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+        }
+        pos = {x: sq.x, y: sq.y + 1};
+        if (pos.x >= 0 && pos.x < maze.grid.size &&
+            pos.y >= 0 && pos.y < maze.grid.size) {
+            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+        }
+        pos = {x: sq.x - 1, y: sq.y};
+        if (pos.x >= 0 && pos.x < maze.grid.size &&
+            pos.y >= 0 && pos.y < maze.grid.size) {
+            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+        }
+        pos = {x: sq.x + 1, y: sq.y};
+        if (pos.x >= 0 && pos.x < maze.grid.size &&
+            pos.y >= 0 && pos.y < maze.grid.size) {
+            maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq);
+        }
+
+    };
+
+    Maze.prototype.isSquare = function(sq) {
+        return !!sq;
+    };
+    
+    Maze.prototype.checkSquare = function(sq, prevSq) {
+        if (!sq.parsed && sq.type !== 2) {
+            sq.parsed = true;
+            sq.from.x = prevSq.x;
+            sq.from.y = prevSq.y;
+            maze.processQueue(sq);
+        }
     };
 
     Maze.prototype.getCanvas = function() {

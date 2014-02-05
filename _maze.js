@@ -156,6 +156,7 @@ function showRoute() {
 	x = z[0];
 	y = z[1];
 	while (x != -1) {
+                console.log(z);
 		if (c[x][y] != undefined) {
 			this["gs_"+x+"_"+y].setPath();
 		}
