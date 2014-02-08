@@ -37,20 +37,20 @@ var wrapper = function() {
     GridSquare.prototype.setStyle = function(type, hover) {
         
         this.ctx.lineWidth = 2;
-        this.ctx.strokeStyle = (hover ? '#0ff' : '#666666');
+        this.ctx.strokeStyle = (hover ? '#bff' : '#666');
 
         switch (type) {
         case 0:
-            this.ctx.fillStyle = "#eeeeee";
+            this.ctx.fillStyle = "#f9f9f9";
             break;
         case 1:
-            this.ctx.fillStyle = "#0f0";
+            this.ctx.fillStyle = "#bff";
             break;
         case 2:
-            this.ctx.fillStyle = "#f00";
+            this.ctx.fillStyle = "#666";
             break;
         case 3:
-            this.ctx.fillStyle = "#00f";
+            this.ctx.fillStyle = "#0cd";
             break;
         default:
             this.ctx.fillStyle = "#ff0";
