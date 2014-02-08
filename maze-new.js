@@ -105,75 +105,86 @@ var wrapper = function(minivents, Grid) {
     Maze.prototype.findPath = function() {
         //starting at the start
         //add the starting square to the list
-        var startingSquare = maze.grid.grid[maze.grid.ends.start.x][maze.grid.ends.start.y];
+        var start = maze.grid.ends.start,
+            startingSquare = maze.grid.grid[start.x][start.y],
+            sqs = [{square: startingSquare}],
+            found, returned;
 
-        maze.processQueue(startingSquare);
-        maze.addAdjacentTo(startingSquare);
+        while (!found) {
+            returned = maze.parseWave(maze.getAdjacentTo(sqs));
+            found = returned.found;
+            sqs = returned.sqs;
+        }
+
+        maze.setPath(found);
     };
 
-    Maze.prototype.processQueue = function(sq) {
+    Maze.prototype.checkFound = function(sqObj) {
+        var sq = sqObj.square;
         //if the first item in the queue is the end, winner.
-        console.log(sq);
         if (sq.x === maze.grid.ends.end.x &&
             sq.y === maze.grid.ends.end.y) {
-            console.log('WINNER');
-            return true;
+            return sqObj.prevSquare;
         }
+        return false;
     };
 
-    Maze.prototype.addAdjacentTo = function(sq) {
-        var toCheck = [],
-            found = false,
-            i = 0,
-            pos = {x: sq.x, y: sq.y - 1};
-        if (pos.x >= 0 && pos.x < maze.grid.size &&
-            pos.y >= 0 && pos.y < maze.grid.size) {
-            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
-        }
-        pos = {x: sq.x, y: sq.y + 1};
-        if (pos.x >= 0 && pos.x < maze.grid.size &&
-            pos.y >= 0 && pos.y < maze.grid.size) {
-            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
-        }
-        pos = {x: sq.x - 1, y: sq.y};
-        if (pos.x >= 0 && pos.x < maze.grid.size &&
-            pos.y >= 0 && pos.y < maze.grid.size) {
-            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
-        }
-        pos = {x: sq.x + 1, y: sq.y};
-        if (pos.x >= 0 && pos.x < maze.grid.size &&
-            pos.y >= 0 && pos.y < maze.grid.size) {
-            toCheck.push(maze.checkSquare(maze.grid.grid[pos.x][pos.y], sq));
+    Maze.prototype.parseWave = function(sqs, sq) {
+        var i,
+            found = false;
+        for (i = 0; i < sqs.length && !found; i++) {
+            found = maze.checkFound(sqs[i]);
+            maze.mark(sqs[i]);
         }
 
-        for (; i < toCheck.length && !found; i++) {
-            if (toCheck[i]) {
-                found = maze.processQueue(toCheck[i]);
-            }
-        }
-        
-        if (found) {
-            console.log('winner');
-            console.log(toCheck[i-1]);
-            maze.setPath(toCheck[i-1]);
-        } else {
-            for (i = 0; i < toCheck.length; i++) {
-                if (toCheck[i]) {
-                    maze.addAdjacentTo(toCheck[i]);
+        return {found: found, sqs: sqs};
+    };
+
+    Maze.prototype.mark = function(sqObj) {
+        var sq = sqObj.square;
+        sq.parsed = true;
+        sq.from = sqObj.prevSquare;
+    };
+
+    Maze.prototype.getAdjacentTo = function(sqs) {
+        var adj = [],
+            dirs, i, j, pos, sq;
+        for (i = 0; i < sqs.length; i++) {
+            dirs = maze.getDirs(sqs[i].square);
+            for (j = 0; j < dirs.length; j++) {
+                pos = dirs[j];
+                if (pos.x >= 0 && pos.x < maze.grid.size &&
+                    pos.y >= 0 && pos.y < maze.grid.size) {
+                    sq = maze.grid.grid[pos.x][pos.y];
+                    if (maze.validSquare(sq)) {
+                        adj.push({
+                            square : sq,
+                            prevSquare : sqs[i].square
+                        });
+                    }
                 }
             }
         }
-        
+        return adj;
+    };
+
+    Maze.prototype.getDirs = function(sq) {
+        return [
+            {x: sq.x, y: sq.y - 1}, // Above
+            {x: sq.x, y: sq.y + 1}, // Below
+            {x: sq.x - 1, y: sq.y}, // Left
+            {x: sq.x + 1, y: sq.y}  // Right
+        ];
+    };
+
+    Maze.prototype.validSquare = function(sq) {
+        return (!sq.parsed && sq.type !== 2);
     };
 
     Maze.prototype.setPath = function(sq) {
-        //set the path back to the start
-        sq.setType(3);
-        console.log('setting path for ', sq);
-        console.log(sq.x, maze.grid.ends.start.x);
         if (!(sq.x === maze.grid.ends.start.x &&
             sq.y === maze.grid.ends.start.y)) {
-            console.log(maze.grid.grid[sq.from.x][sq.from.y]);
+            sq.setType(3);
             maze.setPath(maze.grid.grid[sq.from.x][sq.from.y]);
         }
     };
@@ -182,14 +193,15 @@ var wrapper = function(minivents, Grid) {
         return !!sq;
     };
     
-    Maze.prototype.checkSquare = function(sq, prevSq) {
-        if (!sq.parsed && sq.type !== 2) {
+    Maze.prototype.checkSquare = function(sqObj) {
+        var sq = sqObj.square,
+            prevSq = sqObj.prevSquare;
+
             sq.parsed = true;
             sq.from.x = prevSq.x;
             sq.from.y = prevSq.y;
             return sq;
-            //maze.processQueue(sq);
-        }
+
     };
 
     Maze.prototype.getCanvas = function() {
