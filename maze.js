@@ -217,10 +217,10 @@ var wrapper = function(minivents, Grid) {
 };
 
 if (typeof define !== 'undefined') {
-    define(['./minivents', './grid'], wrapper);
+    define(['./vendor/minivents', './grid'], wrapper);
 } else {
     if (typeof module !== 'undefined') {
-        module.exports.Maze = wrapper(require('./minivents'),
+        module.exports.Maze = wrapper(require('./vendor/minivents'),
                                       require('./grid').Grid);
     }
 }

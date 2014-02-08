@@ -3,7 +3,7 @@ var assert = require('assert'),
     GridSquare = require('../gridSquare').GridSquare,
     window = require('jsdom').jsdom().parentWindow,
     ctx = window.document.createElement('canvas').getContext('2d'),
-    Events = require('../minivents');
+    Events = require('../vendor/minivents');
 
 window.events = new Events();
 

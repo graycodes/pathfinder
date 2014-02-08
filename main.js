@@ -1,4 +1,4 @@
-require(['./maze-new'], function(Maze) {
+require(['./maze'], function(Maze) {
     
     window.maze = new Maze(window);
 
