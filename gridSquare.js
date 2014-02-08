@@ -2,12 +2,12 @@ var wrapper = function() {
 
     var TYPES = ['empty', 'ends', 'wall', 'path'];
         
-    function GridSquare(x, y, context, window) {
+    function GridSquare(x, y, context, window, squareSize) {
         this.x = x;
         this.y = y;
         this.ctx = context;
         this.type = 0;
-        this.size = 40;// width and height in px.
+        this.size = squareSize;// width and height in px.
         this.hovering = false;
         this.parsed = false;
         this.from = {};

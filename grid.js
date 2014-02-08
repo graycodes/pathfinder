@@ -1,6 +1,6 @@
 var wrapper = function(GridSquare) {
     
-    function Grid(size, context, window) {
+    function Grid(size, context, window, squareSize) {
         if (!size) throw 'Missing parameter: size';
         this.size = size;
         this.window = window;
@@ -14,16 +14,16 @@ var wrapper = function(GridSquare) {
                 y: Math.floor(size / 2)
             }
         };
-        this.grid = this.createGrid(this.size, context);// TODO better name?
+        this.grid = this.createGrid(this.size, context, squareSize);
     };
 
-    Grid.prototype.createGrid = function(size, context) {
+    Grid.prototype.createGrid = function(size, context, squareSize) {
         var grid = [],
             x,y;
         for (x = 0; x < size; x++) {
             grid[x] = [];
             for (y = 0; y < size; y++) {
-                grid[x][y] = new GridSquare(x, y, context, this.window);
+                grid[x][y] = new GridSquare(x, y, context, this.window, squareSize);
             }
         }
         

@@ -2,46 +2,20 @@ var wrapper = function(minivents, Grid) {
 
     'use strict';
 
-    function Debugging(document) {
-
-        this.debug = document.createElement('div');
-        this.debug.setAttribute('id', 'debug');
-
-        this.debugStatusBar = document.createElement('div');
-        this.debugStatusBar.setAttribute('id', 'debugStatusBar');
-
-        document.body.appendChild(this.debug);
-        document.body.appendChild(this.debugStatusBar);
-
-    };
-
-    Debugging.prototype.trace = function trace(str,tabs) {
-        var tab = "";
-        for (var i=0;i<tabs;i++) {
-            tab+="&nbsp;&nbsp;&nbsp;&nbsp;";
-        }
-        this.debug.innerHTML += tab + str + "<br />";
-    };
-
-    Debugging.prototype.traceS = function traceS(str) {
-        this.debugStatusBar.innerHTML = str;
-    };
-
     function Maze(window) {
+
+        this.size = 9;
+        this.squareSize = 50;
 
         this.createCanvas(window.document);
         this.createButton(window.document);
-
-        this.debug = new Debugging(window.document);
-        this.debug.trace('New Maze!: ');
-
-        this.size = 9;
+        this.createClearButton(window.document);
 
         this.path = [];
 
         window.events = new minivents();
         
-        this.grid = new Grid(this.size, this.ctx, window);
+        this.grid = new Grid(this.size, this.ctx, window, this.squareSize);
 
     };
 
@@ -49,8 +23,8 @@ var wrapper = function(minivents, Grid) {
         var maze = this;
 
         this.canvas = document.createElement('canvas');
-        this.canvas.width = 450;
-        this.canvas.height = 450;
+        this.canvas.width = this.squareSize * this.size;
+        this.canvas.height = this.squareSize * this.size;
         document.body.appendChild(this.canvas);
 
         this.ctx = this.canvas.getContext('2d');
@@ -62,8 +36,8 @@ var wrapper = function(minivents, Grid) {
     };
 
     Maze.prototype.findSquare = function(xPos, yPos) {
-        var x = Math.floor(xPos / 40),
-            y = Math.floor(yPos / 40);
+        var x = Math.floor(xPos / maze.squareSize),
+            y = Math.floor(yPos / maze.squareSize);
 
         if (x >= maze.size  || y >= maze.size) {
             return undefined;
@@ -101,22 +75,41 @@ var wrapper = function(minivents, Grid) {
         this.button = button;
         
     };
+
+    Maze.prototype.createClearButton = function(document) {
+
+        var button = document.createElement('button');
+        button.innerHTML = 'Clear';
+        
+        document.body.appendChild(button);
+
+        button.onclick = this.clear;
+
+    };
     
+    Maze.prototype.clear = function() {
+        maze.grid = new Grid(maze.size, maze.ctx, window, maze.squareSize);
+    };
+
     Maze.prototype.findPath = function() {
         //starting at the start
         //add the starting square to the list
         var start = maze.grid.ends.start,
             startingSquare = maze.grid.grid[start.x][start.y],
             sqs = [{square: startingSquare}],
+            runs = 0,
             found, returned;
-
-        while (!found) {
+        
+        while (!found && runs < 100) {
             returned = maze.parseWave(maze.getAdjacentTo(sqs));
             found = returned.found;
             sqs = returned.sqs;
+            runs += 1;
         }
 
-        maze.setPath(found);
+        if (found) {
+            maze.setPath(found);
+        }
     };
 
     Maze.prototype.checkFound = function(sqObj) {
