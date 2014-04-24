@@ -1,11 +1,17 @@
 var wrapper = function(minivents, Grid) {
 
     'use strict';
-
+    
+    /**
+     * The main object of this project. Contains the grid and does the calculations
+     * to find the path from A to B.
+     *
+     * @param {Object} window - The browser window object.
+     */
     function Maze(window) {
 
-        this.size = 9;
-        this.squareSize = 50;
+        this.size = 20;
+        this.squareSize = 25;
 
         this.createCanvas(window.document);
         this.createButton(window.document);
@@ -19,6 +25,11 @@ var wrapper = function(minivents, Grid) {
 
     };
 
+    /**
+     * Creates the html canvas for drawing onto. Sets handlers for the canvas too.
+     *
+     * @param {Object} document - The window document.
+     */
     Maze.prototype.createCanvas = function(document) {
         var maze = this;
 
@@ -35,6 +46,12 @@ var wrapper = function(minivents, Grid) {
         this.canvas.onclick = this.setWall;
     };
 
+    /**
+     * Translates the mouse x and y into a grid reference for the maze.
+     *
+     * @param {Number} xPos - The horizontal position of the mouse cursor.
+     * @param {Number} yPos - The vertical position of the mouse cursor.
+     */
     Maze.prototype.findSquare = function(xPos, yPos) {
         var x = Math.floor(xPos / maze.squareSize),
             y = Math.floor(yPos / maze.squareSize);
@@ -46,6 +63,11 @@ var wrapper = function(minivents, Grid) {
         return {x: x, y: y};
     };
 
+    /**
+     * Calls the hover event on the currently hovered-over grid square.
+     *
+     * @param {Object} event - The mouse move event.
+     */
     Maze.prototype.highlight = function(event) {
         var square = maze.findSquare(event.x, event.y);
         if (!square) return;
@@ -55,6 +77,11 @@ var wrapper = function(minivents, Grid) {
         maze.grid.grid[square.x][square.y].hover();
     };
 
+    /**
+     * Sets a square as being a 'wall' square when clicked on
+     *
+     * @param {Object} event - The mouse click event.
+     */
     Maze.prototype.setWall = function(event) {
         var square = maze.findSquare(event.x, event.y);
         if (!square) return;
@@ -63,6 +90,11 @@ var wrapper = function(minivents, Grid) {
 
     };
 
+    /**
+     * Creates the action button on the page to trigger path finding.
+     *
+     * @param {Object} document - The window document.
+     */
     Maze.prototype.createButton = function(document) {
 
         var button = document.createElement('button');
@@ -76,6 +108,11 @@ var wrapper = function(minivents, Grid) {
         
     };
 
+    /**
+     * Creates the action button on the page to clear the maze.
+     *
+     * @param {Object} document - The window document.
+     */
     Maze.prototype.createClearButton = function(document) {
 
         var button = document.createElement('button');
@@ -87,13 +124,20 @@ var wrapper = function(minivents, Grid) {
 
     };
     
+    /**
+     * Clears the maze by creating a new grid.
+     */
     Maze.prototype.clear = function() {
         maze.grid = new Grid(maze.size, maze.ctx, window, maze.squareSize);
     };
 
+    /**
+     * Finds the path from A to B by looping through the squares and asking if we've
+     * reached the end square yet.
+     *
+     * @param {Object} document - The window document.
+     */
     Maze.prototype.findPath = function() {
-        //starting at the start
-        //add the starting square to the list
         var start = maze.grid.ends.start,
             startingSquare = maze.grid.grid[start.x][start.y],
             sqs = [{square: startingSquare}],
@@ -112,6 +156,11 @@ var wrapper = function(minivents, Grid) {
         }
     };
 
+    /**
+     * Returns whether or not the current square is adjacent to the end square.
+     *
+     * @param {Object} sqObj - The current GridSquare object.
+     */
     Maze.prototype.checkFound = function(sqObj) {
         var sq = sqObj.square;
         //if the first item in the queue is the end, winner.
@@ -122,7 +171,13 @@ var wrapper = function(minivents, Grid) {
         return false;
     };
 
-    Maze.prototype.parseWave = function(sqs, sq) {
+    /**
+     * Loops through the current 'wave' of squares before we can move on to the next
+     * wave. This makes sure we parse everything in order.
+     *
+     * @param {Object} sqs - The current wave (list) of GridSquare objects.
+     */
+    Maze.prototype.parseWave = function(sqs) {
         var i,
             found = false;
         for (i = 0; i < sqs.length && !found; i++) {
@@ -133,12 +188,24 @@ var wrapper = function(minivents, Grid) {
         return {found: found, sqs: sqs};
     };
 
+    /**
+     * Marks the current GridSquare object as having been parsed, so we don't parse
+     * anything twice.
+     *
+     * @param {Object} sqObj - The current GridSquare object.
+     */
     Maze.prototype.mark = function(sqObj) {
         var sq = sqObj.square;
         sq.parsed = true;
         sq.from = sqObj.prevSquare;
     };
 
+    /**
+     * Finds all the GridSquares adjacent to this one, which haven't already been 
+     * parsed
+     *
+     * @param {Object} sqs - The current wave of GridSquares
+     */
     Maze.prototype.getAdjacentTo = function(sqs) {
         var adj = [],
             dirs, i, j, pos, sq;
@@ -161,6 +228,11 @@ var wrapper = function(minivents, Grid) {
         return adj;
     };
 
+    /**
+     * Returns the list of possible directions to move from the current square.
+     *
+     * @param {Object} sqObj - The current GridSquare object.
+     */
     Maze.prototype.getDirs = function(sq) {
         return [
             {x: sq.x, y: sq.y - 1}, // Above
@@ -170,10 +242,21 @@ var wrapper = function(minivents, Grid) {
         ];
     };
 
+    /**
+     * Returns whether or not the current square is 'valid' for parsing.
+     * Not parsed, not a wall.
+     *
+     * @param {Object} sq - The current GridSquare object.
+     */
     Maze.prototype.validSquare = function(sq) {
         return (!sq.parsed && sq.type !== 2);
     };
 
+    /**
+     * Sets the current square as being part of the shortest path.
+     *
+     * @param {Object} sq -  current GridSquare object.
+     */
     Maze.prototype.setPath = function(sq) {
         if (!(sq.x === maze.grid.ends.start.x &&
             sq.y === maze.grid.ends.start.y)) {
@@ -182,10 +265,21 @@ var wrapper = function(minivents, Grid) {
         }
     };
 
+    /**
+     * Returns whether or not the current square is a square/
+     *
+     * @param {Object} sq -  current GridSquare object.
+     */
     Maze.prototype.isSquare = function(sq) {
         return !!sq;
     };
     
+    /**
+     * Updates the GridSquare with data such as where the previously parsed square 
+     * was.
+     *
+     * @param {Object} sqObj -  current GridSquare object.
+     */
     Maze.prototype.checkSquare = function(sqObj) {
         var sq = sqObj.square,
             prevSq = sqObj.prevSquare;
