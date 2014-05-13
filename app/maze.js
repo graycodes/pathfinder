@@ -10,8 +10,8 @@ var wrapper = function(minivents, Grid) {
      */
     function Maze(window) {
 
-        this.size = 20;
-        this.squareSize = 25;
+        this.size = 15;
+        this.squareSize = 30;
 
         this.createCanvas(window.document);
         this.createButton(window.document);
@@ -304,10 +304,10 @@ var wrapper = function(minivents, Grid) {
 };
 
 if (typeof define !== 'undefined') {
-    define(['./vendor/minivents', './grid'], wrapper);
+    define(['../vendor/minivents', './grid'], wrapper);
 } else {
     if (typeof module !== 'undefined') {
-        module.exports.Maze = wrapper(require('./vendor/minivents'),
+        module.exports.Maze = wrapper(require('../vendor/minivents'),
                                       require('./grid').Grid);
     }
 }
