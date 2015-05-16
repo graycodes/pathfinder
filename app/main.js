@@ -1,5 +1,6 @@
+/*global require*/
 require(['./maze'], function(Maze) {
     
-    window.maze = new Maze(window);
+    var maze = new Maze(window);
 
 });

@@ -1,3 +1,4 @@
+/*global define, module, require*/
 var wrapper = function() {
 
     var TYPES = ['empty', 'ends', 'wall', 'path'];

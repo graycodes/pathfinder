@@ -1,3 +1,4 @@
+/*global define, module, require*/
 var wrapper = function(minivents, Grid) {
 
     'use strict';
@@ -42,8 +43,8 @@ var wrapper = function(minivents, Grid) {
         this.ctx.fillStyle = 'rgb(180, 200, 220)';
         this.ctx.globalAlpha = 1;
         
-        this.canvas.onmousemove = this.highlight;
-        this.canvas.onclick = this.setWall;
+        this.canvas.onmousemove = this.highlight.bind(this);
+        this.canvas.onclick = this.setWall.bind(this);
     };
 
     /**
@@ -53,10 +54,10 @@ var wrapper = function(minivents, Grid) {
      * @param {Number} yPos - The vertical position of the mouse cursor.
      */
     Maze.prototype.findSquare = function(xPos, yPos) {
-        var x = Math.floor(xPos / maze.squareSize),
-            y = Math.floor(yPos / maze.squareSize);
+        var x = Math.floor(xPos / this.squareSize),
+            y = Math.floor(yPos / this.squareSize);
 
-        if (x >= maze.size  || y >= maze.size) {
+        if (x >= this.size  || y >= this.size) {
             return undefined;
         }
 
@@ -69,12 +70,12 @@ var wrapper = function(minivents, Grid) {
      * @param {Object} event - The mouse move event.
      */
     Maze.prototype.highlight = function(event) {
-        var square = maze.findSquare(event.x, event.y);
+        var square = this.findSquare(event.x, event.y);
         if (!square) return;
 
         window.events.emit('hover');
         
-        maze.grid.grid[square.x][square.y].hover();
+        this.grid.grid[square.x][square.y].hover();
     };
 
     /**
@@ -83,10 +84,10 @@ var wrapper = function(minivents, Grid) {
      * @param {Object} event - The mouse click event.
      */
     Maze.prototype.setWall = function(event) {
-        var square = maze.findSquare(event.x, event.y);
+        var square = this.findSquare(event.x, event.y);
         if (!square) return;
 
-        maze.grid.grid[square.x][square.y].setWall();
+        this.grid.grid[square.x][square.y].setWall();
 
     };
 
@@ -102,7 +103,7 @@ var wrapper = function(minivents, Grid) {
         
         document.body.appendChild(button);
 
-        button.onclick = this.findPath;
+        button.onclick = this.findPath.bind(this);
 
         this.button = button;
         
@@ -120,7 +121,7 @@ var wrapper = function(minivents, Grid) {
         
         document.body.appendChild(button);
 
-        button.onclick = this.clear;
+        button.onclick = this.clear.bind(this);
 
     };
     
@@ -128,7 +129,7 @@ var wrapper = function(minivents, Grid) {
      * Clears the maze by creating a new grid.
      */
     Maze.prototype.clear = function() {
-        maze.grid = new Grid(maze.size, maze.ctx, window, maze.squareSize);
+        this.grid = new Grid(this.size, this.ctx, window, this.squareSize);
     };
 
     /**
@@ -138,21 +139,21 @@ var wrapper = function(minivents, Grid) {
      * @param {Object} document - The window document.
      */
     Maze.prototype.findPath = function() {
-        var start = maze.grid.ends.start,
-            startingSquare = maze.grid.grid[start.x][start.y],
+        var start = this.grid.ends.start,
+            startingSquare = this.grid.grid[start.x][start.y],
             sqs = [{square: startingSquare}],
             runs = 0,
             found, returned;
         
         while (!found && runs < 100) {
-            returned = maze.parseWave(maze.getAdjacentTo(sqs));
+            returned = this.parseWave(this.getAdjacentTo(sqs));
             found = returned.found;
             sqs = returned.sqs;
             runs += 1;
         }
 
         if (found) {
-            maze.setPath(found);
+            this.setPath(found);
         }
     };
 
@@ -164,8 +165,8 @@ var wrapper = function(minivents, Grid) {
     Maze.prototype.checkFound = function(sqObj) {
         var sq = sqObj.square;
         //if the first item in the queue is the end, winner.
-        if (sq.x === maze.grid.ends.end.x &&
-            sq.y === maze.grid.ends.end.y) {
+        if (sq.x === this.grid.ends.end.x &&
+            sq.y === this.grid.ends.end.y) {
             return sqObj.prevSquare;
         }
         return false;
@@ -181,8 +182,8 @@ var wrapper = function(minivents, Grid) {
         var i,
             found = false;
         for (i = 0; i < sqs.length && !found; i++) {
-            found = maze.checkFound(sqs[i]);
-            maze.mark(sqs[i]);
+            found = this.checkFound(sqs[i]);
+            this.mark(sqs[i]);
         }
 
         return {found: found, sqs: sqs};
@@ -210,13 +211,13 @@ var wrapper = function(minivents, Grid) {
         var adj = [],
             dirs, i, j, pos, sq;
         for (i = 0; i < sqs.length; i++) {
-            dirs = maze.getDirs(sqs[i].square);
+            dirs = this.getDirs(sqs[i].square);
             for (j = 0; j < dirs.length; j++) {
                 pos = dirs[j];
-                if (pos.x >= 0 && pos.x < maze.grid.size &&
-                    pos.y >= 0 && pos.y < maze.grid.size) {
-                    sq = maze.grid.grid[pos.x][pos.y];
-                    if (maze.validSquare(sq)) {
+                if (pos.x >= 0 && pos.x < this.grid.size &&
+                    pos.y >= 0 && pos.y < this.grid.size) {
+                    sq = this.grid.grid[pos.x][pos.y];
+                    if (this.validSquare(sq)) {
                         adj.push({
                             square : sq,
                             prevSquare : sqs[i].square
@@ -258,10 +259,10 @@ var wrapper = function(minivents, Grid) {
      * @param {Object} sq -  current GridSquare object.
      */
     Maze.prototype.setPath = function(sq) {
-        if (!(sq.x === maze.grid.ends.start.x &&
-            sq.y === maze.grid.ends.start.y)) {
+        if (!(sq.x === this.grid.ends.start.x &&
+            sq.y === this.grid.ends.start.y)) {
             sq.setType(3);
-            maze.setPath(maze.grid.grid[sq.from.x][sq.from.y]);
+            this.setPath(this.grid.grid[sq.from.x][sq.from.y]);
         }
     };
 

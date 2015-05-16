@@ -1,3 +1,4 @@
+/*global define, module, require*/
 var wrapper = function(GridSquare) {
     
     function Grid(size, context, window, squareSize) {
