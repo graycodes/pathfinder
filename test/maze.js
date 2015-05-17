@@ -2,8 +2,8 @@ var assert = require('assert'),
     expect = require('expect.js'),
     jsdom  = require('jsdom').jsdom,
     window = jsdom().parentWindow,
-    Maze   = require('../maze').Maze,
-    Grid   = require('../grid.js').Grid,
+    Maze   = require('../app/maze').Maze,
+    Grid   = require('../app/grid.js').Grid,
     Events = require('../vendor/minivents');
 
 window.events = new Events();

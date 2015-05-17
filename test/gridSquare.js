@@ -1,9 +1,9 @@
 var assert = require('assert'),
     expect = require('expect.js'),
-    GridSquare = require('../gridSquare').GridSquare,
     window = require('jsdom').jsdom().parentWindow,
     ctx = window.document.createElement('canvas').getContext('2d'),
-    Events = require('../vendor/minivents');
+    Events = require('../vendor/minivents'),
+    GridSquare = require('../app/gridSquare').GridSquare;
 
 window.events = new Events();
 
