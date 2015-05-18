@@ -211,7 +211,7 @@ var wrapper = function(minivents, Grid, _) {
         var adj = [],
             dirs, i, j, pos, sq;
         for (i = 0; i < sqs.length; i++) {
-            dirs = this.getDirs(sqs[i].square);
+            dirs = _.shuffle(this.getDirs(sqs[i].square));
             for (j = 0; j < dirs.length; j++) {
                 pos = dirs[j];
                 if (pos.x >= 0 && pos.x < this.grid.size &&
