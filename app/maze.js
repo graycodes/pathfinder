@@ -126,6 +126,22 @@ var wrapper = function(minivents, Grid, _) {
     };
     
     /**
+     * Clears the path by creating a new grid and recreating the walls from the old
+     * grid.
+     */
+    Maze.prototype.clearPath = function() {
+        var oldGrid = this.grid;
+        this.grid = new Grid(this.size, this.ctx, window, this.squareSize);
+        _.each(oldGrid.grid, function(v, i) {
+            _.each(v, function (v2, j) {
+                if (v2.type === 2) {
+                    this.grid.grid[i][j].setWall();
+                }
+            }.bind(this));
+        }.bind(this));
+    };
+
+    /**
      * Clears the maze by creating a new grid.
      */
     Maze.prototype.clear = function() {
@@ -144,6 +160,8 @@ var wrapper = function(minivents, Grid, _) {
             sqs = [{square: startingSquare}],
             runs = 0,
             found, returned;
+
+        this.clearPath();
         
         while (!found && runs < 100) {
             returned = this.parseWave(this.getAdjacentTo(sqs));
