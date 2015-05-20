@@ -11,11 +11,12 @@ var wrapper = function(minivents, Grid, _) {
      */
     function Maze(window) {
 
-        this.size = 15;
+        this.size = 4;
         this.squareSize = 30;
 
         this.createCanvas(window.document);
         this.createButton(window.document);
+        this.createMapButton(window.document);
         this.createClearButton(window.document);
 
         this.path = [];
@@ -99,13 +100,31 @@ var wrapper = function(minivents, Grid, _) {
     Maze.prototype.createButton = function(document) {
 
         var button = document.createElement('button');
-        button.innerHTML = 'Find Path';
+        button.innerHTML = 'Find A Path';
         
         document.body.appendChild(button);
 
         button.onclick = this.findPath.bind(this);
 
         this.button = button;
+        
+    };
+
+    /**
+     * Creates the action button on the page to trigger path mapping.
+     *
+     * @param {Object} document - The window document.
+     */
+    Maze.prototype.createMapButton = function(document) {
+
+        var button = document.createElement('button');
+        button.innerHTML = 'Find All Paths';
+        
+        document.body.appendChild(button);
+
+        button.onclick = this.findAllPaths.bind(this);
+
+        this.mapButton = button;
         
     };
 
@@ -176,6 +195,32 @@ var wrapper = function(minivents, Grid, _) {
     };
 
     /**
+     * Finds all the shortest paths
+     *
+     * @param {Object} document - The window document.
+     */
+    Maze.prototype.findAllPaths = function() {
+        var start = this.grid.ends.start,
+            startingSquare = this.grid.grid[start.x][start.y],
+            sqs = [{square: startingSquare}],
+            runs = 0,
+            found, returned;
+
+        var adjacent;
+
+        this.clearPath();
+        
+        while (sqs.length && runs <= 100) {
+            runs++;
+
+            adjacent = this.getAdjacentTo(sqs);
+            sqs = this.markWave(adjacent, runs);
+            this.logGrid(this.grid);
+        }
+
+    };
+
+    /**
      * Returns whether or not the current square is adjacent to the end square.
      *
      * @param {Object} sqObj - The current GridSquare object.
@@ -208,15 +253,35 @@ var wrapper = function(minivents, Grid, _) {
     };
 
     /**
+     * Loops through the current 'wave' of squares before we can move on to the next
+     * wave. This makes sure we parse everything in order.
+     * Marks each square with the incremental 'wave number'.
+     *
+     * @param {Object} sqs - The current wave (list) of GridSquare objects.
+     */
+    Maze.prototype.markWave = function(sqs, run) {
+        var i;
+        for (i = 0; i < sqs.length; i++) {
+            sqs[i] = this.mark(sqs[i], run);
+        }
+
+        return sqs;
+    };
+
+    /**
      * Marks the current GridSquare object as having been parsed, so we don't parse
      * anything twice.
      *
      * @param {Object} sqObj - The current GridSquare object.
      */
-    Maze.prototype.mark = function(sqObj) {
+    Maze.prototype.mark = function(sqObj, val) {
         var sq = sqObj.square;
         sq.parsed = true;
         sq.from = sqObj.prevSquare;
+        if (val) {
+            sq.wave = val;
+        }
+        return sq;
     };
 
     /**
@@ -229,7 +294,7 @@ var wrapper = function(minivents, Grid, _) {
         var adj = [],
             dirs, i, j, pos, sq;
         for (i = 0; i < sqs.length; i++) {
-            dirs = _.shuffle(this.getDirs(sqs[i].square));
+            dirs = this.getDirs(sqs[i].square);
             for (j = 0; j < dirs.length; j++) {
                 pos = dirs[j];
                 if (pos.x >= 0 && pos.x < this.grid.size &&
@@ -253,12 +318,18 @@ var wrapper = function(minivents, Grid, _) {
      * @param {Object} sqObj - The current GridSquare object.
      */
     Maze.prototype.getDirs = function(sq) {
-        return [
+        return _.shuffle([
             {x: sq.x, y: sq.y - 1}, // Above
             {x: sq.x, y: sq.y + 1}, // Below
             {x: sq.x - 1, y: sq.y}, // Left
             {x: sq.x + 1, y: sq.y}  // Right
-        ];
+
+
+            // {x: sq.x - 1, y: sq.y - 1}, // NW
+            // {x: sq.x - 1, y: sq.y + 1}, // SW
+            // {x: sq.x + 1, y: sq.y + 1}, // SE
+            // {x: sq.x + 1, y: sq.y - 1}  // NE
+        ]);
     };
 
     /**
@@ -316,6 +387,27 @@ var wrapper = function(minivents, Grid, _) {
     
     Maze.prototype.getContext = function() {
         return this.ctx;
+    };
+
+    Maze.prototype.logGrid = function () {
+        console.log('---');
+        var grid = this.grid.grid;
+        var rotatedGrid = [];
+        var rotatedRow = [];
+        _.each(grid, function (col, i) {
+            rotatedRow = [];
+            _.each(col, function (square, j) {
+//                console.log(grid[j][i]);
+                rotatedRow.push(grid[j][i]);
+            });
+            console.log(_.pluck(rotatedRow, 'wave'));
+            rotatedGrid.push(rotatedRow);
+            // console.log(_.map(col, function (square) {
+            //     return '[' + (square.wave || ' ') + ']';
+            // }));
+        });
+//        console.log(rotatedGrid);
+//        console.log();
     };
 
     return Maze;
