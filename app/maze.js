@@ -212,7 +212,6 @@ var wrapper = function(minivents, Grid, _) {
         
         while (sqs.length && runs <= 100) {
             runs++;
-
             adjacent = this.getAdjacentTo(sqs);
             sqs = this.markWave(adjacent, runs);
             this.logGrid(this.grid);
@@ -265,7 +264,9 @@ var wrapper = function(minivents, Grid, _) {
             sqs[i] = this.mark(sqs[i], run);
         }
 
-        return sqs;
+        return _.map(sqs, function (sq) {
+            return { square: sq };
+        });
     };
 
     /**
