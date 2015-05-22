@@ -398,9 +398,9 @@ var wrapper = function(minivents, Grid, _) {
         _.each(grid, function (col, i) {
             rotatedRow = [];
             _.each(col, function (square, j) {
-                rotatedRow.push(grid[j][i]);
+                rotatedRow.push(grid[j][i].wave || '.');
             });
-            console.log(_.pluck(rotatedRow, 'wave'));
+            console.log(rotatedRow);
             rotatedGrid.push(rotatedRow);
         });
     };
