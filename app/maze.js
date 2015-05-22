@@ -11,7 +11,7 @@ var wrapper = function(minivents, Grid, _) {
      */
     function Maze(window) {
 
-        this.size = 4;
+        this.size = 10;
         this.squareSize = 30;
 
         this.createCanvas(window.document);
@@ -398,17 +398,11 @@ var wrapper = function(minivents, Grid, _) {
         _.each(grid, function (col, i) {
             rotatedRow = [];
             _.each(col, function (square, j) {
-//                console.log(grid[j][i]);
                 rotatedRow.push(grid[j][i]);
             });
             console.log(_.pluck(rotatedRow, 'wave'));
             rotatedGrid.push(rotatedRow);
-            // console.log(_.map(col, function (square) {
-            //     return '[' + (square.wave || ' ') + ']';
-            // }));
         });
-//        console.log(rotatedGrid);
-//        console.log();
     };
 
     return Maze;
