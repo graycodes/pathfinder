@@ -11,7 +11,7 @@ var wrapper = function(minivents, Grid, _) {
      */
     function Maze(window) {
 
-        this.size = 10;
+        this.size = 21;
         this.squareSize = 30;
 
         this.createCanvas(window.document);
@@ -209,13 +209,24 @@ var wrapper = function(minivents, Grid, _) {
         var adjacent;
 
         this.clearPath();
-        
-        while (sqs.length && runs <= 100) {
+
+        var f = function () {
             runs++;
-            adjacent = this.getAdjacentTo(sqs);
+            adjacent = _.filter(this.getAdjacentTo(sqs), function (sq) {
+                return sq.square.type !== 1;
+            });
             sqs = this.markWave(adjacent, runs);
-            this.logGrid(this.grid);
-        }
+            //this.logGrid(this.grid);
+
+        }.bind(this);
+
+        var i = window.setInterval(function () {
+            if (sqs.length && runs <= 100) {
+                f();
+            } else {
+                window.clearInterval(i);
+            }
+        }, 5);
 
     };
 
@@ -264,6 +275,10 @@ var wrapper = function(minivents, Grid, _) {
             sqs[i] = this.mark(sqs[i], run);
         }
 
+        sqs = _.uniq(_.filter(sqs, function (sq) {
+            return sq.type !== 1;
+        }));
+
         return _.map(sqs, function (sq) {
             return { square: sq };
         });
@@ -280,7 +295,7 @@ var wrapper = function(minivents, Grid, _) {
         sq.parsed = true;
         sq.from = sqObj.prevSquare;
         if (val) {
-            sq.wave = val;
+            sq.setWave(val);
         }
         return sq;
     };
@@ -415,6 +430,6 @@ if (typeof define !== 'undefined') {
     if (typeof module !== 'undefined') {
         module.exports.Maze = wrapper(require('../vendor/minivents'),
                                       require('./grid').Grid,
-							   require('../vendor/lodash'));
+				      require('../vendor/lodash'));
     }
 }

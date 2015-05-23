@@ -1,5 +1,5 @@
 /*global define, module, require*/
-var wrapper = function(GridSquare) {
+var wrapper = function(GridSquare, _) {
     
     function Grid(size, context, window, squareSize) {
         if (!size) throw 'Missing parameter: size';
@@ -40,9 +40,10 @@ var wrapper = function(GridSquare) {
 };
 
 if (typeof define !== 'undefined') {
-    define(['./gridSquare'], wrapper);    
+    define(['./gridSquare', '../vendor/lodash.min'], wrapper);//remove
 } else {
     if (typeof module !== 'undefined') { 
-        module.exports.Grid = wrapper(require('./gridSquare').GridSquare);
+        module.exports.Grid = wrapper(require('./gridSquare').GridSquare, 
+				      require('../vendor/lodash'));
     }
 }

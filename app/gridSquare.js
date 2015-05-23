@@ -64,6 +64,20 @@ var wrapper = function() {
         this.render();
     };
 
+    GridSquare.prototype.setWave = function(wave) {
+        if (this.wave) {console.log('omg'); return;}
+        this.wave = wave;
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeStyle = (false ? '#bff' : '#666');
+        var increment = 15;
+        this.ctx.fillStyle = 
+            'rgba(' + (768 - (wave * increment)) + 
+            ',' + (512 - (wave * increment)) + 
+            ',' + (256 - (wave * increment)) + 
+            ',' + (1/2) + ')';
+        this.render();
+    };
+
     GridSquare.prototype.hover = function() {
         this.hovering = true;
         this.setStyle(this.type, this.hovering);
