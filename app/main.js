@@ -69,6 +69,6 @@ require(['./maze', '../vendor/lodash.min'], function(Maze, _) {
         }
     };
 
-    window.debug.tieFighter();
+//    window.debug.tieFighter();
 
 });
