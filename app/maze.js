@@ -430,6 +430,6 @@ if (typeof define !== 'undefined') {
     if (typeof module !== 'undefined') {
         module.exports.Maze = wrapper(require('../vendor/minivents'),
                                       require('./grid').Grid,
-				      require('../vendor/lodash'));
+				      require('../vendor/lodash.min'));
     }
 }

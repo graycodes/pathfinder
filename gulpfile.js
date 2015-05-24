@@ -35,7 +35,7 @@ gulp.task('test', function () {
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(mocha({
             reporter: 'nyan',
-            require: ['../../node_modules/chai/chai.js'],
+//            require: ['../../node_modules/chai/chai.js'],
             debug: true,
             cwd: '.'
         }));
