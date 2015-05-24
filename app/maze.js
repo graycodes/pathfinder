@@ -341,7 +341,7 @@ var wrapper = function(minivents, Grid, _) {
             {x: sq.x + 1, y: sq.y}  // Right
 
 
-            // {x: sq.x - 1, y: sq.y - 1}, // NW
+            // ,{x: sq.x - 1, y: sq.y - 1}, // NW
             // {x: sq.x - 1, y: sq.y + 1}, // SW
             // {x: sq.x + 1, y: sq.y + 1}, // SE
             // {x: sq.x + 1, y: sq.y - 1}  // NE
