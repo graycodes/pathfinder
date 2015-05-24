@@ -3,5 +3,5 @@
 * TODO Add watcher to gulp
 * TODO Make page pretty
 * TODO Add a bunch of unit tests
-* TODO Remove node_modules from repo
+* DONE Remove node_modules from repo
 * TODO Extract rendering layer
