@@ -1,8 +1,10 @@
 pathfinder
 ==========
 
-Finding the shortest path from A to B.
+Designed to find the shortest path from the start square to the end square.
 
-You can see a live demo on [my website](http://gmacg.me.uk/pathfinder)
+Click on the grid to place wall blocks and create a maze.
 
-![maze screenshot](https://raw.githubusercontent.com/xinUmbralis/pathfinder/master/maze.png)
+Find it on [my website](http://gmacg.me.uk/pathfinder)
+
+![maze screenshot](https://raw.githubusercontent.com/xinUmbralis/pathfinder/master/pathfinder.gif)

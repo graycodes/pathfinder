@@ -226,7 +226,7 @@ var wrapper = function(minivents, Grid, _) {
             } else {
                 window.clearInterval(i);
             }
-        }, 5);
+        }, 100);
 
     };
 
