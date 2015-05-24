@@ -1,19 +1,25 @@
 {
-    "name": "Pathfinder"
-  , "version": "0.0.1"
-  , "description": "Interactive path finding in JS"
-  , "keywords": ["path", "find", "pathfinder"]
-  , "author": "Gray MacGregor <gmacg.uk@gmail.com>"
-  , "main": "index"
-  , "engines": { "node": ">= 0.4.x < 0.7.0" }
-  , "scripts": {
+  "name": "Pathfinder",
+  "version": "0.0.1",
+  "description": "Interactive path finding in JS",
+  "keywords": [
+    "path",
+    "find",
+    "pathfinder"
+  ],
+  "author": "Gray MacGregor <gmacg.uk@gmail.com>",
+  "main": "index",
+  "engines": {
+    "node": ">= 0.4.x < 0.7.0"
+  },
+  "scripts": {
     "test": "make test"
-  }
-  , "devDependencies": {
-    "mocha": "0.3.x",
-    "jsdom": "latest",
-    "canvas": "latest",
-    "requirejs": "latest",
-    "expect.js": "latest"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.5.3",
+    "express": "^4.12.4",
+    "gulp": "^3.8.11",
+    "gulp-livereload": "^3.8.0",
+    "tiny-lr": "^0.1.5"
   }
 }
