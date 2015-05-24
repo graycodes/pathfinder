@@ -9,11 +9,8 @@
   ],
   "author": "Gray MacGregor <gmacg.uk@gmail.com>",
   "main": "index",
-  "engines": {
-    "node": ">= 0.4.x < 0.7.0"
-  },
   "scripts": {
-    "test": "make test"
+    "test": "gulp test"
   },
   "devDependencies": {
     "chai": "^2.3.0",
