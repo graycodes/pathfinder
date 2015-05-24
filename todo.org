@@ -1,0 +1,5 @@
+* TODO Swap out make for gulp
+* TODO Add unit tests to gulp
+* TODO Add watcher to gulp
+* TODO Make page pretty
+* TODO Add a bunch of unit tests
