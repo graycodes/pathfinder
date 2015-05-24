@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var mocha = require('gulp-mocha');
 
 var EXPRESS_PORT = 4000;
 var EXPRESS_ROOT = __dirname;
@@ -28,6 +29,17 @@ function notifyLivereload(event) {
         }
     });
 }
+
+gulp.task('test', function () {
+    return gulp.src('test/index.js', {read: false})
+        // gulp-mocha needs filepaths so you can't have any plugins before it
+        .pipe(mocha({
+            reporter: 'nyan',
+            require: ['../../node_modules/chai/chai.js'],
+            debug: true,
+            cwd: '.'
+        }));
+});
 
 gulp.task('default', function () {
     startExpress();

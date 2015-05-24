@@ -40,10 +40,10 @@ var wrapper = function(GridSquare, _) {
 };
 
 if (typeof define !== 'undefined') {
-    define(['./gridSquare', '../vendor/lodash.min'], wrapper);//remove
+    define(['./gridSquare', '/vendor/lodash.min'], wrapper);//remove
 } else {
     if (typeof module !== 'undefined') { 
         module.exports.Grid = wrapper(require('./gridSquare').GridSquare, 
-				      require('../vendor/lodash'));
+				      require('../vendor/lodash.min'));
     }
 }
