@@ -65,7 +65,7 @@ var wrapper = function() {
     };
 
     GridSquare.prototype.setWave = function(wave) {
-        if (this.wave) {console.log('omg'); return;}
+        if (this.wave) return;
         this.wave = wave;
         this.ctx.lineWidth = 2;
         this.ctx.strokeStyle = (false ? '#bff' : '#666');
