@@ -19,6 +19,7 @@
     "gulp": "^3.8.11",
     "gulp-livereload": "^3.8.0",
     "gulp-mocha": "^2.1.0",
+    "gulp-react": "^3.0.1",
     "tiny-lr": "^0.1.5"
   }
 }

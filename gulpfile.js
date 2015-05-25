@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
+var react = require('gulp-react');
 
 var EXPRESS_PORT = 4000;
 var EXPRESS_ROOT = __dirname;
@@ -30,6 +31,12 @@ function notifyLivereload(event) {
     });
 }
 
+var paths = {
+    jsx: ['app/*.jsx'],
+    sourceFiles: ['app/*.*'],
+    staticFiles: ['app/*.js', 'app/*.html', 'app/*.css']
+};
+
 gulp.task('test', function () {
     return gulp.src('test/index.js', {read: false})
         // gulp-mocha needs filepaths so you can't have any plugins before it
@@ -41,8 +48,27 @@ gulp.task('test', function () {
         }));
 });
 
-gulp.task('default', function () {
+gulp.task('setup-lr', function () {
     startExpress();
     startLivereload();
-    gulp.watch('app/*.js', notifyLivereload);
 });
+
+gulp.task('react', function () {
+    return gulp.src(paths.jsx)
+        .pipe(react())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('copy-dist', function () {
+    return gulp.src(paths.staticFiles)
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('watch', function () {
+    gulp.watch(paths.jsx, ['react']);
+    gulp.watch(paths.staticFiles, ['copy-dist'])
+    gulp.watch('dist/*.*', notifyLivereload);
+    gulp.watch(['app/*.*', 'test/*.js'], ['test']);
+});
+
+gulp.task('default', ['setup-lr', 'watch', 'react', 'test']);
