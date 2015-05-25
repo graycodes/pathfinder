@@ -1,0 +1,16 @@
+{
+  "name": "pathfinder",
+  "version": "0.0.0",
+  "homepage": "https://github.com/xinUmbralis/pathfinder",
+  "authors": [
+    "Gray MacGregor <gmacg.uk@gmail.com>"
+  ],
+  "main": "app/main.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}
