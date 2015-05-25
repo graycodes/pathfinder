@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var react = require('gulp-react');
+var del = require('del');
 
 var EXPRESS_PORT = 4000;
 var EXPRESS_ROOT = __dirname;
@@ -12,7 +13,7 @@ function startExpress() {
     var express = require('express');
     var app = express();
     app.use(require('connect-livereload')());
-    app.use(express.static(EXPRESS_ROOT));
+    app.use(express.static(EXPRESS_ROOT + '/dist'));
     app.listen(EXPRESS_PORT);
 }
 
@@ -34,11 +35,12 @@ function notifyLivereload(event) {
 var paths = {
     jsx: ['app/*.jsx'],
     sourceFiles: ['app/*.*'],
-    staticFiles: ['app/*.js', 'app/*.html', 'app/*.css']
+    staticFiles: ['app/*.js', 'app/*.html', 'app/*.css'],
+    vendor: 'vendor'
 };
 
 gulp.task('test', function () {
-    return gulp.src('test/index.js', {read: false})
+    return gulp.src('test/index.js', { read: false })
         // gulp-mocha needs filepaths so you can't have any plugins before it
         .pipe(mocha({
             reporter: 'nyan',
@@ -56,19 +58,34 @@ gulp.task('setup-lr', function () {
 gulp.task('react', function () {
     return gulp.src(paths.jsx)
         .pipe(react())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/app'));
 });
 
 gulp.task('copy-dist', function () {
     return gulp.src(paths.staticFiles)
+        .pipe(gulp.dest('dist/app'));
+});
+
+gulp.task('copy-dist-static', function () {
+    return gulp.src(paths.staticFiles)
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('copy-dist-lib', function () {
+    return gulp.src('vendor/**/*')
+        .pipe(gulp.dest('dist/vendor'));
+});
+
+gulp.task('clean', function () {
+    return del(['dist']);
 });
 
 gulp.task('watch', function () {
     gulp.watch(paths.jsx, ['react']);
-    gulp.watch(paths.staticFiles, ['copy-dist'])
+    gulp.watch(paths.js, ['copy-dist']);
+    gulp.watch(['app/*.html', 'app/*.css'], ['copy-dist-static']);
     gulp.watch('dist/*.*', notifyLivereload);
     gulp.watch(['app/*.*', 'test/*.js'], ['test']);
 });
 
-gulp.task('default', ['setup-lr', 'watch', 'react', 'test']);
+gulp.task('default', ['clean', 'setup-lr', 'test', 'watch', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib']);
