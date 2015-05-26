@@ -34,6 +34,7 @@ var paths = {
     jsx: ['app/*.jsx'],
     sourceFiles: ['app/*.*'],
     staticFiles: ['app/*.js', 'app/*.html', 'app/*.css'],
+	baseFiles: ['app/*.html', 'app/*.css'],
     vendor: 'vendor'
 };
 
