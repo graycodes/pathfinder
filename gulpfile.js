@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var react = require('gulp-react');
 var del = require('del');
+var _ = require('lodash');
 
 var EXPRESS_PORT = 4000;
 var EXPRESS_ROOT = __dirname;
@@ -80,11 +81,15 @@ gulp.task('clean', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.jsx, ['react']);
-    gulp.watch(paths.js, ['copy-dist']);
-    gulp.watch(paths.baseFiles, ['copy-dist-static']);
-    gulp.watch('dist/*.*', notifyLivereload);
+    var watches = [];
+    watches.push(gulp.watch(paths.jsx, ['react']));
+    watches.push(gulp.watch(paths.js, ['copy-dist']));
+    watches.push(gulp.watch(paths.baseFiles, ['copy-dist-static']));
     gulp.watch(['app/*.*', 'test/*.js'], ['test']);
+
+    _.each(watches, function (w) {
+        w.on('change', notifyLivereload);
+    });
 });
 
 gulp.task('default', ['test', 'clean', 'setup-lr', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib', 'watch']);
