@@ -1,7 +1,9 @@
 /*global require*/
-require(['./maze', '../vendor/lodash.min'], function(Maze, _) {
+require(['./maze', '../vendor/lodash.min', './square'], function(Maze, _, Square) {
     
     var maze = new Maze(window);
+
+    var s = new Square();
 
     window.debug = {
         tieFighter: function tieFighter() {//21x21

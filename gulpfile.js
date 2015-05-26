@@ -33,9 +33,10 @@ function notifyLivereload(event) {
 
 var paths = {
     jsx: ['app/*.jsx'],
+    js: ['app/*.js'],
     sourceFiles: ['app/*.*'],
     staticFiles: ['app/*.js', 'app/*.html', 'app/*.css'],
-	baseFiles: ['app/*.html', 'app/*.css'],
+    baseFiles: ['app/*.html', 'app/*.css'],
     vendor: 'vendor'
 };
 
