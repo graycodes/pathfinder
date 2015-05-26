@@ -9,7 +9,6 @@ var LIVERELOAD_PORT = 35729;
 var lr;
 
 function startExpress() {
-    
     var express = require('express');
     var app = express();
     app.use(require('connect-livereload')());
@@ -18,7 +17,6 @@ function startExpress() {
 }
 
 function startLivereload() {
-    
     lr = require('tiny-lr')();
     lr.listen(LIVERELOAD_PORT);
 }
@@ -67,7 +65,7 @@ gulp.task('copy-dist', function () {
 });
 
 gulp.task('copy-dist-static', function () {
-    return gulp.src(paths.staticFiles)
+    return gulp.src(paths.baseFiles)
         .pipe(gulp.dest('dist'));
 });
 
@@ -77,15 +75,15 @@ gulp.task('copy-dist-lib', function () {
 });
 
 gulp.task('clean', function () {
-    return del(['dist']);
+    return del.sync(['dist']);
 });
 
 gulp.task('watch', function () {
     gulp.watch(paths.jsx, ['react']);
     gulp.watch(paths.js, ['copy-dist']);
-    gulp.watch(['app/*.html', 'app/*.css'], ['copy-dist-static']);
+    gulp.watch(paths.baseFiles, ['copy-dist-static']);
     gulp.watch('dist/*.*', notifyLivereload);
     gulp.watch(['app/*.*', 'test/*.js'], ['test']);
 });
 
-gulp.task('default', ['clean', 'setup-lr', 'test', 'watch', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib']);
+gulp.task('default', ['test', 'clean', 'setup-lr', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib', 'watch']);
