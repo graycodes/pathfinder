@@ -11,7 +11,7 @@
     font-family:Consolas, monospace;
     font-size:0.75em;
     background-color:#9CC;
-    border-bottom:1px dotted #666;	
+    border-bottom:1px dotted #666;
 }
 canvas {
     background-color:#fff;
@@ -19,4 +19,8 @@ canvas {
 }
 body {
     background-color:#eee;
+}
+
+#react-mount-point {
+	display: none;
 }
