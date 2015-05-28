@@ -1,17 +1,35 @@
 /*global define, module, require*/
 var wrapper = function(React) {
     return function () {
-        console.log('square');
 
         var Square = React.createClass({
             render: function () {
                 return (
-                    <p>HELLO MUM</p>
+                    <li>HELLO MUM</li>
                 );
             }
         });
 
-        React.render(<Square/>, document.getElementById('react-mount-point'))
+        var _generateRow = function (size) {
+            return _.map(_.range(size), function (num) {
+                return (<Square/>);
+            });
+        };
+
+        var Grid = React.createClass({
+
+            render: function () {
+                var size = 10;
+                var grid = _.map(_.range(size), function () {
+                    return (<ol>{_generateRow(size)}</ol>);
+                });
+                return (
+                    <div>{grid}</div>
+                );
+            }
+        });
+
+        React.render(<Grid/>, document.getElementById('react-mount-point'))
     };
 };
 
