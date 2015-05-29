@@ -10,18 +10,22 @@ var wrapper = function(React) {
             }
         });
 
-        var _generateRow = function (size) {
-            return _.map(_.range(size), function (num) {
-                return (<Square/>);
-            });
-        };
+        var gridState = [
+            [0,0,0],
+            [0,0,0],
+            [0,0,0],
+        ];
 
         var Grid = React.createClass({
-
             render: function () {
                 var size = 10;
-                var grid = _.map(_.range(size), function () {
-                    return (<ol>{_generateRow(size)}</ol>);
+                var grid = _.map(gridState, function (row) {
+                    return (
+                        <ol>
+                        {_.map(row, function (square) {
+                            return (<Square/>);
+                        })}
+                        </ol>)
                 });
                 return (
                     <div>{grid}</div>
