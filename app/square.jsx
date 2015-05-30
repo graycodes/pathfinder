@@ -3,16 +3,23 @@ var wrapper = function(React) {
     return function () {
 
         var Square = React.createClass({
+
+            getClass: function (type) {
+                return ['empty', 'ends', 'wall', 'path'][type];
+            },
+
             render: function () {
+                var classString = this.getClass(this.props.type);
+
                 return (
-                    <li>HELLO MUM</li>
+                    <li className={classString}>HELLO MUM</li>
                 );
             }
         });
 
         var gridState = [
             [0,0,0],
-            [0,0,0],
+            [1,2,1],
             [0,0,0],
         ];
 
@@ -23,7 +30,7 @@ var wrapper = function(React) {
                     return (
                         <ol>
                         {_.map(row, function (square) {
-                            return (<Square/>);
+                            return (<Square type={square} />);
                         })}
                         </ol>)
                 });
