@@ -5,5 +5,8 @@ var expect = chai.expect;
 
 describe('Grid Square', function() {
 
+    it('should be defined', function () {
+        expect(GridSquare).to.be.defined;
+    });
 
 });
