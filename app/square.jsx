@@ -12,7 +12,7 @@ var wrapper = function(React) {
                 var classString = this.getClass(this.props.type);
 
                 return (
-                    <li className={classString}>HELLO MUM</li>
+                    <li className={classString}></li>
                 );
             }
         });
