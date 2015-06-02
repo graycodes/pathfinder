@@ -17,16 +17,21 @@ var wrapper = function(React) {
             }
         });
 
-        var gridState = [
-            [0,0,0],
-            [1,2,1],
-            [0,0,0],
-        ];
-
         var Grid = React.createClass({
+
+            getInitialState: function () {
+                return {
+                    grid: [
+                        [0,0,0],
+                        [1,2,1],
+                        [0,0,0],
+                    ]
+                } 
+            },
+
             render: function () {
                 var size = 10;
-                var grid = _.map(gridState, function (row) {
+                var grid = _.map(this.state.grid, function (row) {
                     return (
                         <ol>
                         {_.map(row, function (square) {
