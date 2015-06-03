@@ -9,7 +9,7 @@ var wrapper = function(React) {
             },
 
             render: function () {
-                var classString = this.getClass(this.props.type);
+                var classString = 'square ' + this.getClass(this.props.type);
 
                 return (
                     <li className={classString}></li>
@@ -33,7 +33,7 @@ var wrapper = function(React) {
                 var size = 10;
                 var grid = _.map(this.state.grid, function (row) {
                     return (
-                        <ol>
+                        <ol className="row">
                         {_.map(row, function (square) {
                             return (<Square type={square} />);
                         })}

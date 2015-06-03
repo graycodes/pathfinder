@@ -24,3 +24,32 @@ body {
 #react-mount-point {
 	display: none;
 }
+
+.square {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid gray;
+    box-sizing: border-box;
+}
+.square:hover {
+    border-color: lightblue;
+}
+
+.square.empty {
+    background-color: lightgray;
+}
+.square.wall {
+    background-color: gray;
+}
+.square.ends {
+    background-color: lightblue;
+}
+.square.path {
+    background-color: red;
+}
+
+.row {
+    height: 20px;
+}
+
