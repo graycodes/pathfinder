@@ -8,11 +8,21 @@ var wrapper = function(React) {
                 return ['empty', 'ends', 'wall', 'path'][type];
             },
 
+            logShit: function (thing) {
+                console.log('foo', thing); 
+            },
+
+            getInitialState: function () {
+                return {
+                    type: 'empty'
+                };
+            },
+
             render: function () {
                 var classString = 'square ' + this.getClass(this.props.type);
-
+ 
                 return (
-                    <li className={classString}></li>
+                    <li className={classString} onClick={this.logShit}></li>
                 );
             }
         });
@@ -23,7 +33,7 @@ var wrapper = function(React) {
                 return {
                     grid: [
                         [0,0,0],
-                        [1,2,1],
+                        [0,0,0],
                         [0,0,0],
                     ]
                 } 
@@ -34,8 +44,8 @@ var wrapper = function(React) {
                 var grid = _.map(this.state.grid, function (row) {
                     return (
                         <ol className="row">
-                        {_.map(row, function (square) {
-                            return (<Square type={square} />);
+                        {_.map(row, function () {
+                            return (<Square />);
                         })}
                         </ol>)
                 });
