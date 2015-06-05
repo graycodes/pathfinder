@@ -8,8 +8,11 @@ var wrapper = function(React) {
                 return ['empty', 'ends', 'wall', 'path'][type];
             },
 
-            logShit: function (thing) {
-                console.log('foo', thing); 
+            toggleWall: function () {
+                if ( this.state.type === 'empty' ) {
+                    this.setState({ type: 'wall' });
+                    console.log('made wall');
+                }
             },
 
             getInitialState: function () {
@@ -19,10 +22,11 @@ var wrapper = function(React) {
             },
 
             render: function () {
-                var classString = 'square ' + this.getClass(this.props.type);
+                console.log(this.state);
+                var classString = 'square ' + this.state.type;
  
                 return (
-                    <li className={classString} onClick={this.logShit}></li>
+                    <li className={classString} onClick={this.toggleWall}></li>
                 );
             }
         });
