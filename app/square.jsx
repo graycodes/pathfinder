@@ -11,18 +11,25 @@ var wrapper = function(React) {
             toggleWall: function () {
                 if ( this.state.type === 'empty' ) {
                     this.setState({ type: 'wall' });
-                    console.log('made wall');
+                } else if ( this.state.type === 'wall' ) {
+                    this.setState({ type: 'empty' });
+                }
+            },
+
+            getInitialProps: function () {
+                return {
+                    type: 'empty'
                 }
             },
 
             getInitialState: function () {
+                console.log(this.props);
                 return {
-                    type: 'empty'
+                    type: this.props.type
                 };
             },
 
             render: function () {
-                console.log(this.state);
                 var classString = 'square ' + this.state.type;
  
                 return (
@@ -33,23 +40,28 @@ var wrapper = function(React) {
 
         var Grid = React.createClass({
 
+            types: ['empty', 'ends', 'wall', 'path'], 
+
             getInitialState: function () {
                 return {
                     grid: [
-                        [0,0,0],
-                        [0,0,0],
-                        [0,0,0],
+                        [0,0,0,0,0],
+                        [0,0,0,0,0],
+                        [1,0,0,0,1],
+                        [0,0,0,0,0],
+                        [0,0,0,0,0],
                     ]
                 } 
             },
 
             render: function () {
                 var size = 10;
+                var types = this.types;
                 var grid = _.map(this.state.grid, function (row) {
                     return (
                         <ol className="row">
-                        {_.map(row, function () {
-                            return (<Square />);
+                        {_.map(row, function (s) {
+                            return (<Square type={types[s]} />);
                         })}
                         </ol>)
                 });
@@ -60,6 +72,8 @@ var wrapper = function(React) {
         });
 
         React.render(<Grid/>, document.getElementById('react-mount-point'))
+
+        window.Gridly = Grid;
     };
 };
 
