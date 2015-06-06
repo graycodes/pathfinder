@@ -22,7 +22,7 @@ body {
 }
 
 #react-mount-point {
-	display: none;
+	/*display: none;*/
 }
 
 .square {

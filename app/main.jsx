@@ -1,9 +1,12 @@
 /*global require*/
-require(['./maze', '../vendor/lodash.min', './square'], function(Maze, _, Square) {
+require(['../vendor/react/react.min',
+         './maze',
+         '../vendor/lodash.min',
+         './grid-component'], function(React, Maze, _, Grid) {
     
     var maze = new Maze(window);
 
-    var s = new Square();
+    React.render(<Grid/>, document.getElementById('react-mount-point'))
 
     window.debug = {
         tieFighter: function tieFighter() {//21x21
