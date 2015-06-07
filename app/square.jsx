@@ -15,6 +15,10 @@ var wrapper = function(React) {
             }
         },
 
+        clicked: function () {
+
+        },
+
         getInitialProps: function () {
             return {
                 type: 'empty'
@@ -32,7 +36,7 @@ var wrapper = function(React) {
             var classString = 'square ' + this.state.type;
             
             return (
-                <li className={classString} onClick={this.toggleWall}></li>
+                <li className={classString} onClick={this.clicked}></li>
             );
         }
     });
