@@ -39,7 +39,6 @@ var wrapper = function(React, Square) {
 
 if (typeof define !== 'undefined') {
     define(['../vendor/react/react.min',
-        '../vendor/backbone.wreqr/',
         './square'], wrapper);
 } else {
     if (typeof module !== 'undefined') {
