@@ -5,26 +5,36 @@ var wrapper = function(React, _, Square) {
 
             types: ['empty', 'ends', 'wall', 'path'], 
 
+            size: 10,
+
             getInitialState: function () {
+                var size = this.size;
+                var grid = _.map(_.range(size), function (x) {
+                    var row = _.map(_.range(size), function (y) {
+                        console.log('yes');
+                        return {
+                            type: 0,
+                            parsed: 0
+                        }
+                    });
+                    console.log(row);
+                    return row;
+                });
+                console.log(grid);
                 return {
-                    grid: [
-                        [0,0,0,0,0],
-                        [0,0,0,0,0],
-                        [1,0,0,0,1],
-                        [0,0,0,0,0],
-                        [0,0,0,0,0],
-                    ]
+                    grid: grid
                 } 
             },
 
             render: function () {
                 var size = 10;
                 var types = this.types;
+                console.log(this.state.grid);
                 var grid = _.map(this.state.grid, function (row) {
                     return (
                         <ol className="row">
                         {_.map(row, function (s) {
-                            return (<Square type={types[s]} />);
+                            return (<Square type={types[s.type]} />);
                         })}
                         </ol>)
                 });
@@ -84,7 +94,6 @@ var wrapper = function(React, _, Square) {
             validSquare: function(sq) {
                 return (!sq.parsed && sq.type !== 2);
             }
-
 
         });
 
