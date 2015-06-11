@@ -5,22 +5,19 @@ var wrapper = function(React, _, Square) {
 
             types: ['empty', 'ends', 'wall', 'path'], 
 
-            size: 10,
+            size: 21,
 
             getInitialState: function () {
                 var size = this.size;
                 var grid = _.map(_.range(size), function (x) {
                     var row = _.map(_.range(size), function (y) {
-                        console.log('yes');
                         return {
                             type: 0,
                             parsed: 0
                         }
                     });
-                    console.log(row);
                     return row;
                 });
-                console.log(grid);
                 return {
                     grid: grid
                 } 
@@ -29,7 +26,6 @@ var wrapper = function(React, _, Square) {
             render: function () {
                 var size = 10;
                 var types = this.types;
-                console.log(this.state.grid);
                 var grid = _.map(this.state.grid, function (row) {
                     return (
                         <ol className="row">
