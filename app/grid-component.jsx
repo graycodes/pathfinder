@@ -13,7 +13,9 @@ var wrapper = function(React, _, Square) {
                     var row = _.map(_.range(size), function (y) {
                         return {
                             type: 0,
-                            parsed: 0
+                            parsed: 0,
+                            x: x,
+                            y: y
                         }
                     });
                     return row;

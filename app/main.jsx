@@ -8,6 +8,9 @@ require(['../vendor/react/react.min',
 
         React.render(<Grid/>, document.getElementById('react-mount-point'))
 
+        var g = new Grid();
+        window.g = g;
+
         window.debug = {
             tieFighter: function tieFighter() {//21x21
                 var shape = [

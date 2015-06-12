@@ -22,7 +22,6 @@ var wrapper = function(React) {
         },
 
         getInitialState: function () {
-            console.log(this.props);
             return {
                 type: this.props.type
             };
