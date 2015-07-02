@@ -1,5 +1,6 @@
 pathfinder
 ==========
+[![Build Status](https://travis-ci.org/xinUmbralis/pathfinder.svg?branch=master)](https://travis-ci.org/xinUmbralis/pathfinder)
 
 Designed to find the shortest path from the start square to the end square.
 
