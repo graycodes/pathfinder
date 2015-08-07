@@ -28,6 +28,7 @@ var wrapper = function(React, _, Square) {
             },
 
             render: function () {
+		console.log(this.state);
                 var size = 10;
                 var types = this.types;
                 var grid = _.map(this.state.grid, function (row) {
