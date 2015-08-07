@@ -27,14 +27,14 @@ var wrapper = function(minivents, Grid, _) {
 
     };
 
-	var p = PathingService.prototype;
+	var ps = PathingService.prototype;
 
     /**
      * Creates the html canvas for drawing onto. Sets handlers for the canvas too.
      *
      * @param {Object} document - The window document.
      */
-    p.createCanvas = function(document) {
+    ps.createCanvas = function(document) {
         var maze = this;
 
         this.canvas = document.createElement('canvas');
@@ -56,7 +56,7 @@ var wrapper = function(minivents, Grid, _) {
      * @param {Number} xPos - The horizontal position of the mouse cursor.
      * @param {Number} yPos - The vertical position of the mouse cursor.
      */
-    p.findSquare = function(xPos, yPos) {
+    ps.findSquare = function(xPos, yPos) {
         var x = Math.floor(xPos / this.squareSize),
             y = Math.floor(yPos / this.squareSize);
 
@@ -72,7 +72,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} event - The mouse move event.
      */
-    p.highlight = function(event) {
+    ps.highlight = function(event) {
         var square = this.findSquare(event.x, event.y);
         if (!square) return;
 
@@ -86,7 +86,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} event - The mouse click event.
      */
-    p.setWall = function(event) {
+    ps.setWall = function(event) {
         var square = this.findSquare(event.x, event.y);
         if (!square) return;
 
@@ -99,7 +99,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} document - The window document.
      */
-    p.createButton = function(document) {
+    ps.createButton = function(document) {
 
         var button = document.createElement('button');
         button.innerHTML = 'Find A Path';
@@ -117,7 +117,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} document - The window document.
      */
-    p.createMapButton = function(document) {
+    ps.createMapButton = function(document) {
 
         var button = document.createElement('button');
         button.innerHTML = 'Find All Paths';
@@ -135,7 +135,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} document - The window document.
      */
-    p.createClearButton = function(document) {
+    ps.createClearButton = function(document) {
 
         var button = document.createElement('button');
         button.innerHTML = 'Clear';
@@ -150,7 +150,7 @@ var wrapper = function(minivents, Grid, _) {
      * Clears the path by creating a new grid and recreating the walls from the old
      * grid.
      */
-    p.clearPath = function() {
+    ps.clearPath = function() {
         var oldGrid = this.grid;
         this.grid = new Grid(this.size, this.ctx, window, this.squareSize);
         _.each(oldGrid.grid, function(v, i) {
@@ -165,7 +165,7 @@ var wrapper = function(minivents, Grid, _) {
     /**
      * Clears the maze by creating a new grid.
      */
-    p.clear = function() {
+    ps.clear = function() {
         this.grid = new Grid(this.size, this.ctx, window, this.squareSize);
     };
 
@@ -175,7 +175,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} document - The window document.
      */
-    p.findPath = function() {
+    ps.findPath = function() {
         var start = this.grid.ends.start,
             startingSquare = this.grid.grid[start.x][start.y],
             sqs = [{square: startingSquare}],
@@ -201,7 +201,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} document - The window document.
      */
-    p.findAllPaths = function() {
+    ps.findAllPaths = function() {
         var start = this.grid.ends.start,
             startingSquare = this.grid.grid[start.x][start.y],
             sqs = [{square: startingSquare}],
@@ -237,7 +237,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqObj - The current GridSquare object.
      */
-    p.checkFound = function(sqObj) {
+    ps.checkFound = function(sqObj) {
         var sq = sqObj.square;
         //if the first item in the queue is the end, winner.
         if (sq.x === this.grid.ends.end.x &&
@@ -253,7 +253,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqs - The current wave (list) of GridSquare objects.
      */
-    p.parseWave = function(sqs) {
+    ps.parseWave = function(sqs) {
         var i,
             found = false;
         for (i = 0; i < sqs.length && !found; i++) {
@@ -271,7 +271,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqs - The current wave (list) of GridSquare objects.
      */
-    p.markWave = function(sqs, run) {
+    ps.markWave = function(sqs, run) {
         var i;
         for (i = 0; i < sqs.length; i++) {
             sqs[i] = this.mark(sqs[i], run);
@@ -292,7 +292,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqObj - The current GridSquare object.
      */
-    p.mark = function(sqObj, val) {
+    ps.mark = function(sqObj, val) {
         var sq = sqObj.square;
         sq.parsed = true;
         sq.from = sqObj.prevSquare;
@@ -308,7 +308,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqs - The current wave of GridSquares
      */
-    p.getAdjacentTo = function(sqs) {
+    ps.getAdjacentTo = function(sqs) {
         var adj = [],
             dirs, i, j, pos, sq;
         for (i = 0; i < sqs.length; i++) {
@@ -335,7 +335,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqObj - The current GridSquare object.
      */
-    p.getDirs = function(sq) {
+    ps.getDirs = function(sq) {
         return _.shuffle([
             {x: sq.x, y: sq.y - 1}, // Above
             {x: sq.x, y: sq.y + 1}, // Below
@@ -356,7 +356,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sq - The current GridSquare object.
      */
-    p.validSquare = function(sq) {
+    ps.validSquare = function(sq) {
         return (!sq.parsed && sq.type !== 2);
     };
 
@@ -365,7 +365,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sq -  current GridSquare object.
      */
-    p.setPath = function(sq) {
+    ps.setPath = function(sq) {
         if (!(sq.x === this.grid.ends.start.x &&
             sq.y === this.grid.ends.start.y)) {
             sq.setType(3);
@@ -378,7 +378,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sq -  current GridSquare object.
      */
-    p.isSquare = function(sq) {
+    ps.isSquare = function(sq) {
         return !!sq;
     };
     
@@ -388,7 +388,7 @@ var wrapper = function(minivents, Grid, _) {
      *
      * @param {Object} sqObj -  current GridSquare object.
      */
-    p.checkSquare = function(sqObj) {
+    ps.checkSquare = function(sqObj) {
         var sq = sqObj.square,
             prevSq = sqObj.prevSquare;
 
@@ -399,15 +399,15 @@ var wrapper = function(minivents, Grid, _) {
 
     };
 
-    p.getCanvas = function() {
+    ps.getCanvas = function() {
         return this.canvas;
     };
     
-    p.getContext = function() {
+    ps.getContext = function() {
         return this.ctx;
     };
 
-    p.logGrid = function () {
+    ps.logGrid = function () {
         console.log('---');
         var grid = this.grid.grid;
         var rotatedGrid = [];
