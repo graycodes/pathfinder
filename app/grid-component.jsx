@@ -20,6 +20,8 @@ var wrapper = function(React, _, Square) {
                     });
                     return row;
                 });
+		grid[10][0].type = 1;
+		grid[10][20].type = 1;
                 return {
                     grid: grid
                 } 

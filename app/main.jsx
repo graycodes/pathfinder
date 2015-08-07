@@ -2,14 +2,15 @@
 require(['../vendor/react/react.min',
     './maze',
     '../vendor/lodash.min',
-    './grid-component'], function(React, Maze, _, Grid) {
+    './grid-component',
+    './interface'], function(React, Maze, _, Grid, Interface) {
         
         var maze = new Maze(window);
 
-        React.render(<Grid/>, document.getElementById('react-mount-point'))
+        React.render(<Grid/>, document.getElementById('grid'));
+	React.render(<Interface/>, document.getElementById('interface'));
 
-        var g = new Grid();
-        window.g = g;
+        window.g = new Grid();
 
         window.debug = {
             tieFighter: function tieFighter() {//21x21
