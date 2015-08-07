@@ -18,8 +18,7 @@ var wrapper = function(React, _) {
 
 	    clickFind: function() {
 	        console.log('find');
-		console.log(Interface);
-//		PathService.findShortest()
+		
 	    }
 
 	});

@@ -28,7 +28,6 @@ var wrapper = function(React) {
         },
 
         render: function () {
-	    console.log(this.state);
             var classString = 'square ' + this.state.type;
             
             return (

@@ -5,10 +5,8 @@ var wrapper = function(React, _, Square) {
 
             types: ['empty', 'ends', 'wall', 'path'], 
 
-            size: 21,
-
-            getInitialState: function () {
-                var size = this.size;
+	    buildGrid: function () {
+                var size = this.props.size;
                 var grid = _.map(_.range(size), function (x) {
                     var row = _.map(_.range(size), function (y) {
                         return {
@@ -21,17 +19,16 @@ var wrapper = function(React, _, Square) {
                     return row;
                 });
 		grid[10][0].type = 1;
-		grid[10][20].type = 1;
-                return {
-                    grid: grid
-                } 
-            },
+		grid[~~(size / 2)][size - 1].type = 1;
+		return grid;
+	    },
 
             render: function () {
-		console.log(this.state);
-                var size = 10;
+		console.log('grid props', this.props);
+		var grid = this.buildGrid();
                 var types = this.types;
-                var grid = _.map(this.state.grid, function (row) {
+
+                grid = _.map(grid, function (row) {
                     return (
                         <ol className="row">
                         {_.map(row, function (s) {
@@ -39,6 +36,8 @@ var wrapper = function(React, _, Square) {
                         })}
                         </ol>)
                 });
+
+
                 return (
                     <div>{grid}</div>
                 );
