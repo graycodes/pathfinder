@@ -26,7 +26,8 @@ body {
 }
 
 .square {
-    display: inline-block;
+    float: left;
+	list-style-type: none;
     width: 20px;
     height: 20px;
     border: 1px solid gray;
@@ -50,6 +51,6 @@ body {
 }
 
 .row {
-    height: 20px;
+	clear: left;
 }
 
