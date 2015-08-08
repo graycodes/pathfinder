@@ -59,6 +59,9 @@ gulp.task('setup-lr', function () {
 gulp.task('react', function () {
     return gulp.src(paths.jsx)
         .pipe(react())
+		.on('error', function (err) {
+			console.error('[React Compile Error]', err.fileName, err.message);
+		})
         .pipe(gulp.dest('dist/app'));
 });
 

@@ -3,40 +3,67 @@ var wrapper = function(React, _, Square) {
 
         var Grid = React.createClass({
 
-            types: ['empty', 'ends', 'wall', 'path'], 
+            types: ['empty', 'ends', 'wall', 'path'],
 
 	    buildGrid: function () {
                 var size = this.props.size;
                 var grid = _.map(_.range(size), function (x) {
                     var row = _.map(_.range(size), function (y) {
                         return {
-                            type: 0,
-                            parsed: 0,
-                            x: x,
-                            y: y
-                        }
-                    });
+			    type: 0,
+			    parsed: 0,
+			    x: x,
+			    y: y
+			};
+                    }.bind(this));
                     return row;
-                });
-		grid[10][0].type = 1;
+                }.bind(this));
+		grid[~~(size / 2)][0].type = 1;
 		grid[~~(size / 2)][size - 1].type = 1;
 		return grid;
 	    },
 
+            toggleWall: function (square, event, id) {
+		var currSq = this.state.grid[square.x][square.y];
+		var newType;
+
+		if (currSq.type === 0) {
+		    newType = this.types.indexOf('wall');
+		} else if (currSq.type === 2) {
+		    newType = this.types.indexOf('empty');
+		}
+
+		if (typeof newType !== 'undefined') {
+		    this.setState(function (state, p) {
+			state.grid[square.x][square.y].type = newType;
+			return state;
+		    });
+		}
+            },
+
+	    getInitialState: function () {
+		return {
+		    grid: this.buildGrid()
+		};
+	    },
+
             render: function () {
 		console.log('grid props', this.props);
-		var grid = this.buildGrid();
+		var grid = this.state.grid;
                 var types = this.types;
 
                 grid = _.map(grid, function (row) {
                     return (
                         <ol className="row">
                         {_.map(row, function (s) {
-                            return (<Square type={types[s.type]} />);
-                        })}
+                            return (
+				<Square
+				    type={types[s.type]}
+				    clickHandler={this.toggleWall.bind(this, s)}
+				/>);
+                        }.bind(this))}
                         </ol>)
-                });
-
+                }.bind(this));
 
                 return (
                     <div>{grid}</div>

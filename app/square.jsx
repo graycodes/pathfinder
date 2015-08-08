@@ -3,37 +3,18 @@ var wrapper = function(React) {
 
     var Square = React.createClass({
 
-        getClass: function (type) {
-            return ['empty', 'ends', 'wall', 'path'][type];
-        },
-
-        toggleWall: function () {
-            if ( this.state.type === 'empty' ) {
-                this.setState({ type: 'wall' });
-            } else if ( this.state.type === 'wall' ) {
-                this.setState({ type: 'empty' });
-            }
-        },
-
-        getInitialProps: function () {
-            return {
-                type: 'empty'
-            }
-        },
-
-        getInitialState: function () {
-            return {
-                type: this.props.type
-            };
-        },
+	clickHandler: function (event, id) {
+	    this.props.clickHandler(event, id);
+	},
 
         render: function () {
-            var classString = 'square ' + this.state.type;
-            
+//	    console.log('render sq', this.props.x, this.props.y, this.props.type);
+            var classString = 'square ' + this.props.type;
             return (
-                <li className={classString} onClick={this.toggleWall}></li>
+                <li className={classString} onClick={this.clickHandler}></li>
             );
         }
+
     });
 
     return Square;
