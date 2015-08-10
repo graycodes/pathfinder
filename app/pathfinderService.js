@@ -1,4 +1,5 @@
 /*global define, module, require*/
+define(['../vendor/minivents', './grid', '../vendor/lodash/lodash.min'], wrapper);
 var wrapper = function(minivents, Grid, _) {
 
     'use strict';
@@ -425,13 +426,3 @@ var wrapper = function(minivents, Grid, _) {
     return PathingService;
 
 };
-
-if (typeof define !== 'undefined') {
-    define(['../vendor/minivents', './grid', '../vendor/lodash.min'], wrapper);
-} else {
-    if (typeof module !== 'undefined') {
-        module.exports.Maze = wrapper(require('../vendor/minivents'),
-                                      require('./grid').Grid,
-				      require('../vendor/lodash.min'));
-    }
-}

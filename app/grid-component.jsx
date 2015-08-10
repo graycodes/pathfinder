@@ -1,4 +1,8 @@
 /*global define, module, require*/
+define(['../vendor/react/react.min',
+        '../vendor/lodash/lodash.min',
+        './square'], wrapper);
+
 var wrapper = function(React, _, Square) {
 
         var Grid = React.createClass({
@@ -126,15 +130,3 @@ var wrapper = function(React, _, Square) {
 
         return Grid;
 };
-
-if (typeof define !== 'undefined') {
-    define(['../vendor/react/react.min',
-        '../vendor/lodash.min',
-        './square'], wrapper);
-} else {
-    if (typeof module !== 'undefined') {
-        module.exports = wrapper(require('../vendor/react/react.min'),
-            require('../vendor/lodash.min'),
-            require('./square'));
-    }
-}

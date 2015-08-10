@@ -1,12 +1,13 @@
 /*global define*/
 define([
     '../vendor/react/react.min',
-    '../vendor/lodash.min',
+    '../vendor/lodash/lodash.min',
     './grid-component',
-    './interface'
+    './interface',
+    './mediator'
 ], wrapper);
 
-function wrapper(React, _, Grid, Interface) {
+function wrapper(React, _, Grid, Interface, Mediator) {
 
     var Pathfinder = React.createClass({
 
@@ -36,7 +37,6 @@ function wrapper(React, _, Grid, Interface) {
 	    );
 	}
     })
-
 
     return Pathfinder;
 

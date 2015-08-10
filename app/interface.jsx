@@ -1,4 +1,6 @@
 /*global define, module, require*/
+define(['../vendor/react/react.min',
+        '../vendor/lodash/lodash.min'], wrapper);
 var wrapper = function(React, _) {
 
         var Interface = React.createClass({
@@ -25,13 +27,3 @@ var wrapper = function(React, _) {
 
         return Interface;
 };
-
-if (typeof define !== 'undefined') {
-    define(['../vendor/react/react.min',
-        '../vendor/lodash.min'], wrapper);
-} else {
-    if (typeof module !== 'undefined') {
-        module.exports = wrapper(require('../vendor/react/react.min'),
-            require('../vendor/lodash.min'));
-    }
-}
