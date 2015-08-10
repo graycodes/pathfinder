@@ -1,9 +1,4 @@
 /*global require*/
-require.config({
-    paths: {
- 	lodash: '../vendor/lodash/lodash.min',
-    },
-});
 
 require([
     '../vendor/react/react.min',

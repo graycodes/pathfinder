@@ -1,9 +1,8 @@
 /*global define, module, require*/
 define(['../vendor/react/react.min',
         '../vendor/lodash/lodash.min',
-        './square'], wrapper);
-
-var wrapper = function(React, _, Square) {
+        './square'],
+    function(React, _, Square) {
 
         var Grid = React.createClass({
 
@@ -129,4 +128,4 @@ var wrapper = function(React, _, Square) {
         });
 
         return Grid;
-};
+});

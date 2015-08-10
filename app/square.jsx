@@ -1,6 +1,6 @@
 /*global define, module, require*/
-define(['../vendor/react/react.min'], wrapper);
-var wrapper = function(React) {
+define(['../vendor/react/react.min'],
+function(React) {
 
     var Square = React.createClass({
 
@@ -19,4 +19,4 @@ var wrapper = function(React) {
     });
 
     return Square;
-};
+});
