@@ -1,28 +1,34 @@
 /*global define, module, require*/
 define(['../vendor/react/react.min',
-        '../vendor/lodash/lodash.min'],
-function(React, _) {
+    '../vendor/lodash/lodash.min',
+    '../vendor/minivents'],
+    function (React, _, minivents) {
 
-    var Interface = React.createClass({
+	var Interface = React.createClass({
 
-        render: function () {
-            return (
-		<div>
-		<button onClick={this.clickReset}>Reset</button>
-		<button onClick={this.clickFind}>Find Path</button>
-		</div>
-            )
-        },
+	    componentWillRender: {
+		console.log('interface will render');
+	    },
 
-	clickReset: function() {
-	    console.log('reset');
-	},
+            render: function () {
+		return (
+		    <div>
+		    <button onClick={this.clickReset}>Reset</button>
+		    <button onClick={this.clickFind}>Find Path</button>
+		    </div>
+		)
+            },
 
-	clickFind: function() {
-	    console.log('find');
-	}
+	    clickReset: function() {
+		console.log('reset');
+	    },
 
+	    clickFind: function() {
+		console.log('find');
+		minivents.
+	    }
+
+	});
+
+	return Interface;
     });
-
-    return Interface;
-});
