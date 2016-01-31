@@ -4,7 +4,9 @@ var React = require('react');
 var reactDom = require('react-dom');
 var _ = require('lodash');
 var redux = require('redux');
-var Pathfinder = require('./pathfinder');
+var Pathfinder = require('./pathfinder.jsx');
+
+console.log('argssessst');
 
 window.p = React.createElement(Pathfinder, {size:21});
 console.log(window.p);

@@ -23,7 +23,9 @@
     "gulp-mocha": "^2.1.0",
     "gulp-react": "^3.0.1",
     "lodash": "^3.9.3",
-    "tiny-lr": "^0.1.5"
+    "reactify": "^1.1.1",
+    "tiny-lr": "^0.1.5",
+    "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
     "react": "^0.14.7",

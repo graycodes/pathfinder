@@ -1,6 +1,6 @@
 var React = require('react');
 var _ = require('lodash');
-var Square = require('./square');
+var Square = require('./square.jsx');
 
 var Grid = React.createClass({
 

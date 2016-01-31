@@ -3,6 +3,9 @@ var mocha = require('gulp-mocha');
 var react = require('gulp-react');
 var del = require('del');
 var _ = require('lodash');
+var browserify = require('browserify');
+var reactify = require('reactify');
+var source = require('vinyl-source-stream');
 
 var EXPRESS_PORT = 4000;
 var EXPRESS_ROOT = __dirname;
@@ -57,11 +60,14 @@ gulp.task('setup-lr', function () {
 });
 
 gulp.task('react', function () {
-    return gulp.src(paths.jsx)
-        .pipe(react())
-		.on('error', function (err) {
-			console.error('[React Compile Error]', err.fileName, err.message);
-		})
+    var b = browserify({
+        entries: './app/main.jsx',
+        debug: true,
+        transform: [reactify]
+    });
+
+    return b.bundle()
+        .pipe(source('output.js'))
         .pipe(gulp.dest('dist/app'));
 });
 
