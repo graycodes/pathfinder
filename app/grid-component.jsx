@@ -53,14 +53,15 @@ var Grid = React.createClass({
 	var grid = this.state.grid;
         var types = this.types;
 
-        grid = _.map(grid, function (row) {
+        grid = _.map(grid, function (row, index1) {
             return (
-                <ol className="row">
-                {_.map(row, function (s) {
+                <ol className="row" key={index1}>
+                {_.map(row, function (s, index2) {
                     return (
 			<Square
 			type={types[s.type]}
 			clickHandler={this.toggleWall.bind(this, s)}
+                        key={index2}
 			/>);
                 }.bind(this))}
                 </ol>)
