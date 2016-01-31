@@ -7,4 +7,5 @@ require([
 ], function(React, Pathfinder, _) {
     window.p = React.createElement(Pathfinder, {size:21});
     React.render(window.p, document.getElementById('pathfinder'));
+
 });
