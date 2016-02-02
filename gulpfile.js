@@ -95,7 +95,7 @@ gulp.task('watch', function () {
     watches.push(gulp.watch(paths.jsx, ['react']));
     watches.push(gulp.watch(paths.js, ['copy-dist']));
     watches.push(gulp.watch(paths.baseFiles, ['copy-dist-static']));
-    gulp.watch(['app/*.*', 'test/*.js'], ['test']);
+    //gulp.watch(['app/*.*', 'test/*.js'], ['test']);
 
     _.each(watches, function (w) {
         w.on('change', notifyLivereload);
@@ -104,4 +104,4 @@ gulp.task('watch', function () {
 
 gulp.task('watcher', ['setup-lr', 'watch']);
 
-gulp.task('default', ['test', 'clean', 'setup-lr', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib', 'watch']);
+gulp.task('default', [/*'test', */'clean', 'setup-lr', 'react', 'copy-dist', 'copy-dist-static', 'copy-dist-lib', 'watch']);

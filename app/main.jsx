@@ -5,10 +5,7 @@ var reactDom = require('react-dom');
 var _ = require('lodash');
 var redux = require('redux');
 var Pathfinder = require('./pathfinder.jsx');
+var actions = require('./actions/index');
 
-console.log('argssessst');
-
-window.p = React.createElement(Pathfinder, {size:21});
-console.log(window.p);
+window.p = React.createElement(Pathfinder, {size:3, actions: actions});
 reactDom.render(window.p, document.getElementById('pathfinder'));
-console.log(redux);
