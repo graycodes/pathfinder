@@ -36,7 +36,8 @@ function notifyLivereload(event) {
 
 var paths = {
     jsx: ['app/*.jsx'],
-    js: ['app/*.js'],
+    js: ['app/**/*.js'],
+    jsfoo: ['app/**/*.js', 'app/**/*.jsx'],
     sourceFiles: ['app/*.*'],
     staticFiles: ['app/*.js', 'app/*.html', 'app/*.css'],
     baseFiles: ['app/*.html', 'app/*.css'],
@@ -92,8 +93,8 @@ gulp.task('clean', function () {
 
 gulp.task('watch', function () {	
     var watches = [];
-    watches.push(gulp.watch(paths.jsx, ['react']));
-    watches.push(gulp.watch(paths.js, ['copy-dist']));
+    watches.push(gulp.watch(paths.jsfoo, ['react']));
+    //watches.push(gulp.watch(paths.js, ['copy-dist']));
     watches.push(gulp.watch(paths.baseFiles, ['copy-dist-static']));
     //gulp.watch(['app/*.*', 'test/*.js'], ['test']);
 

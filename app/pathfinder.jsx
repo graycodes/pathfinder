@@ -8,21 +8,16 @@ var Interface = require('./interface.jsx');
 var Pathfinder = React.createClass({
 
     getInitialState: function () {
-        return {
-            size: this.props.size,
-        }
-    },
-
-    componentWillMount: function () {
-
+        console.log('props', this.props);
+        return this.props.state;
     },
 
     render: function () {
         console.log('pathfinder render', this.state.size);
         return (
                 <div>
-                <Grid size={this.state.size}/>
-                <Interface />
+	                <Grid size={this.state.size} walls={this.state.walls} actions={this.props.actions} />
+	                <Interface actions={this.props.actions} />
                 </div>
         );
     }

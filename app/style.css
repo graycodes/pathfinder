@@ -28,8 +28,8 @@ body {
 .square {
     float: left;
 	list-style-type: none;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border: 1px solid gray;
     box-sizing: border-box;
 }

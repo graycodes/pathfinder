@@ -19,8 +19,15 @@ var Grid = React.createClass({
             }.bind(this));
             return row;
         }.bind(this));
+
+        console.log('p', this.props);
+        _.map(this.props.walls, function (w) {
+            grid[w[0]][w[1]].type = 2;
+        });
+
 	grid[~~(size / 2)][0].type = 1;
 	grid[~~(size / 2)][size - 1].type = 1;
+
 	return grid;
     },
 
@@ -42,15 +49,16 @@ var Grid = React.createClass({
 	}
     },
 
-    getInitialState: function () {
-	return {
-	    grid: this.buildGrid()
-	};
-    },
+    // getInitialState: function () {
+    //     return {
+    //         grid: this.buildGrid()
+    //     };
+    // },
 
     render: function () {
 	console.log('grid props', this.props);
-	var grid = this.state.grid;
+	var grid = this.buildGrid();
+        console.log('grid', grid);
         var types = this.types;
 
         grid = _.map(grid, function (row, index1) {
@@ -59,9 +67,12 @@ var Grid = React.createClass({
                 {_.map(row, function (s, index2) {
                     return (
 			<Square
-			type={types[s.type]}
-			clickHandler={this.toggleWall.bind(this, s)}
-                        key={index2}
+				type={types[s.type]}
+				clickHandler={this.toggleWall.bind(this, s)}
+                        	x={index1}
+                        	y={index2}
+	                        key={index2}
+	                        actions={this.props.actions}
 			/>);
                 }.bind(this))}
                 </ol>)
