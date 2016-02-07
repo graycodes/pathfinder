@@ -19,13 +19,14 @@ module.exports = function pathfinding(state, action) {
 };
 
 function toggleWall(arr, coords) {
-    console.log('toggleWall', arr, coords);
+    var newWalls = [];
     var filtered = arr.filter(function (pair) {
         return !(pair[0] === coords[0] && pair[1] === coords[1]);
     });
     if (filtered.length === arr.length) {
-        arr.push(coords)
-        return arr;
+        newWalls = newWalls.concat(arr);
+        newWalls = newWalls.concat([coords]);
+        return newWalls;
     } else {
         return filtered;
     }

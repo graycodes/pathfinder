@@ -20,7 +20,6 @@ var Grid = React.createClass({
             return row;
         }.bind(this));
 
-        console.log('p', this.props);
         _.map(this.props.walls, function (w) {
             grid[w[0]][w[1]].type = 2;
         });

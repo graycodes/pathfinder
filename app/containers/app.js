@@ -13,9 +13,13 @@ var actions = require('../actions/index');
 var App = React.createClass({
     render: function () {
         var actions = this.props.actions;
+        var size = this.props.size;
+        var walls = this.props.walls;
+        var path = this.props.path;
+
         return (
             <div>
-    	        <Pathfinder state={initialState} actions={actions} />
+    	        <Pathfinder size={size} walls={walls} path={path} actions={actions} />
             </div>
         );
     }
@@ -28,7 +32,9 @@ App.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        angus: state
+        size: state.size,
+        walls: state.walls,
+        path: state.path
     }
 };
 
