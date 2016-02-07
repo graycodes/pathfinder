@@ -9,15 +9,15 @@ var Interface = React.createClass({
 
     render: function () {
         return (
-                <div>
+            <div>
                 <button onClick={this.clickReset}>Reset</button>
                 <button onClick={this.clickFind}>Find Path</button>
-                </div>
+            </div>
         )
     },
 
     clickReset: function() {
-        console.log('reset');
+        this.props.actions.reset();
     },
 
     clickFind: function() {

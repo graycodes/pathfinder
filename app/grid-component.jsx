@@ -55,9 +55,7 @@ var Grid = React.createClass({
     // },
 
     render: function () {
-	console.log('grid props', this.props);
 	var grid = this.buildGrid();
-        console.log('grid', grid);
         var types = this.types;
 
         grid = _.map(grid, function (row, index1) {
