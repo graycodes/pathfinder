@@ -91,7 +91,7 @@ gulp.task('clean', function () {
     return del.sync(['dist']);
 });
 
-gulp.task('watch', function () {	
+gulp.task('watch', function () {
     var watches = [];
     watches.push(gulp.watch(paths.jsfoo, ['react']));
     //watches.push(gulp.watch(paths.js, ['copy-dist']));
@@ -102,6 +102,10 @@ gulp.task('watch', function () {
         w.on('change', notifyLivereload);
     });
 });
+
+gulp.task('tdd', function () {
+    gulp.watch(['app/**/*.*', 'test/*.js'], ['test']);
+})
 
 gulp.task('watcher', ['setup-lr', 'watch']);
 
