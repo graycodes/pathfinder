@@ -22,6 +22,7 @@ var Interface = React.createClass({
 
     clickFind: function() {
         console.log('find');
+        this.props.actions.findPath();
     }
 
 });
