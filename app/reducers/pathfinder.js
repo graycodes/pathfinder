@@ -26,6 +26,14 @@ p.toggleWall = function (arr, coords) {
 p.findNext = function (state) {
     // if the state doesn't have any path, then start. Otherwise loop through the latest path queue;
     var adjacentTo = state.path.length === 0 ? this.getStart(state.size) : [0,0];
+    var path;
+    if (state.path.length > 0) {
+        path =  _.map(state.path, function (point) {
+            return this.getAdjacentFree(point, state.size, state.walls, state.path);
+        }.bind(this));
+        path = _.uniqWith(_.flatten(path), _.isEqual);
+        return _.extend({}, state, {path: state.path.concat(path)});
+    }
     return _.extend({}, state, { path: state.path.concat(this.getAdjacentFree(adjacentTo, state.size, state.walls, state.path)) });
 }
 
@@ -37,10 +45,12 @@ p.getAdjacentFree = function (start, size, walls, path) {
     var notOffGrid = _.partial(this.notOffGrid, size);
     var notWall = _.partial(this.notX, walls);
     var notPath = _.partial(this.notX, path);
+    var notStart = function (point) { return !(point[0] === 0 && point[1] === 3) };
     return _(this.getAdjacent(start))
             .filter(notWall)
             .filter(notPath)
             .filter(notOffGrid)
+//            .filter(notStart)
             .value();
 }
 
@@ -64,6 +74,10 @@ p.notOffGrid = function (size, point) {
 p.notX = function (walls, point) {
     var intersection = _.intersectionWith(walls, [point], _.isEqual);
     return intersection.length === 0;
+}
+
+p.pointsAreEqual = function (pointA, pointB) {// TODO: remove
+    return pointA[0] === pointB[0] && pointA[1] === pointB[1];
 }
 
 module.exports = new Pathfinder();

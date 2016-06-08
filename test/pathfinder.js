@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var chai = require('../node_modules/chai/chai');
 var expect = chai.expect;
 var pathfinder = require('../app/reducers/pathfinder');
@@ -25,7 +26,7 @@ describe('Pathfinder', function() {
     describe('findNext', function () {
         it('should return a list of points next to the start, given an empty grid', function () {
             var state = { size: 3, walls: [], path: [] };
-            expect(pathfinder.findNext(state)).to.deep.equal([[0,0], [1,1], [0,2]]);
+            expect(pathfinder.findNext(state)).to.deep.equal(_.extend(state, { path: [[0,0], [1,1], [0,2]] }));
         });
     });
 
@@ -85,5 +86,17 @@ describe('Pathfinder', function() {
             expect(pathfinder.notX([[1,1], [2,2], [3,3]], [2,7])).to.equal(true);
         });
     });
+
+    describe('pointsAreEqual', function () {
+        it('should compare points', function () {
+            expect(pathfinder.pointsAreEqual([0,0], [0,0])).to.equal(true);
+            expect(pathfinder.pointsAreEqual([1,2], [1,2])).to.equal(true);
+            expect(pathfinder.pointsAreEqual([3,7], [3,7])).to.equal(true);
+
+            expect(pathfinder.pointsAreEqual([0,1], [0,0])).to.equal(false);
+            expect(pathfinder.pointsAreEqual([3,1], [2,2])).to.equal(false);
+            expect(pathfinder.pointsAreEqual([4,1], [1,7])).to.equal(false);
+        });
+    })
 
 });
