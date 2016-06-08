@@ -12,6 +12,7 @@ var Interface = React.createClass({
             <div>
                 <button onClick={this.clickReset}>Reset</button>
                 <button onClick={this.clickFind}>Find Path</button>
+                <button onClick={this.clickFindNext}>Find Next</button>
             </div>
         )
     },
@@ -23,6 +24,11 @@ var Interface = React.createClass({
     clickFind: function() {
         console.log('find');
         this.props.actions.findPath();
+    },
+
+    clickFindNext: function() {
+        console.log('findNext');
+        this.props.actions.findNext();
     }
 
 });

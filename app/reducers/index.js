@@ -8,6 +8,8 @@ module.exports = function pathfinding(state, action) {
             console.log('findPath reducer');
             // Here, we need to do some heavy lifting
             return state;
+        case actions.FIND_NEXT:
+            return pathfinder.findNext(state);
         case actions.RESET:
             return initialState;
         case actions.CLICK_SQUARE:

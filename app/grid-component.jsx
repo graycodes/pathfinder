@@ -8,14 +8,14 @@ var Grid = React.createClass({
 
     buildGrid: function () {
         var size = this.props.size;
-        var grid = _.map(_.range(size), function (x) {
-            var row = _.map(_.range(size), function (y) {
+        var grid = _.map(_.range(size), function (y) {
+            var row = _.map(_.range(size), function (x) {
                 return {
-		    type: 0,
-		    parsed: 0,
-		    x: x,
-		    y: y
-		};
+                    type: 0,
+                    parsed: 0,
+                    x: x,
+                    y: y
+                };
             }.bind(this));
             return row;
         }.bind(this));
@@ -24,28 +24,32 @@ var Grid = React.createClass({
             grid[w[0]][w[1]].type = 2;
         });
 
-	grid[~~(size / 2)][0].type = 1;
-	grid[~~(size / 2)][size - 1].type = 1;
+        _.map(this.props.path, function (w) {
+            grid[w[0]][w[1]].type = 3;
+        });
 
-	return grid;
+        grid[0][~~(size / 2)].type = 1;
+        grid[size - 1][~~(size / 2)].type = 1;
+
+        return grid;
     },
 
     toggleWall: function (square, event, id) {
-	var currSq = this.state.grid[square.x][square.y];
-	var newType;
+        var currSq = this.state.grid[square.x][square.y];
+        var newType;
 
-	if (currSq.type === 0) {
-	    newType = this.types.indexOf('wall');
-	} else if (currSq.type === 2) {
-	    newType = this.types.indexOf('empty');
-	}
+        if (currSq.type === 0) {
+            newType = this.types.indexOf('wall');
+        } else if (currSq.type === 2) {
+            newType = this.types.indexOf('empty');
+        }
 
-	if (typeof newType !== 'undefined') {
-	    this.setState(function (state, p) {
-		state.grid[square.x][square.y].type = newType;
-		return state;
-	    });
-	}
+        if (typeof newType !== 'undefined') {
+            this.setState(function (state, p) {
+                state.grid[square.x][square.y].type = newType;
+                return state;
+            });
+        }
     },
 
     // getInitialState: function () {
@@ -55,24 +59,35 @@ var Grid = React.createClass({
     // },
 
     render: function () {
-	var grid = this.buildGrid();
+        var grid = this.buildGrid();
         var types = this.types;
 
-        grid = _.map(grid, function (row, index1) {
-            return (
-                <ol className="row" key={index1}>
+        var self = this;
+        var gridFlipped = [];
+
+        for (var y = 0; y < grid.length; y++) {
+            gridFlipped[y] = [];
+        }
+
+        for (var x = 0; x < grid.length; x++) {
+            for (var y = 0; y < grid.length; y++) {
+                gridFlipped[y][x] = grid[x][y];
+            }
+        }
+
+        grid = _.map(gridFlipped, function (row, index1) {
+            return (<ol className="row" key={index1}>
                 {_.map(row, function (s, index2) {
-                    return (
-			<Square
-				type={types[s.type]}
-				clickHandler={this.toggleWall.bind(this, s)}
-                        	x={index1}
-                        	y={index2}
-	                        key={index2}
-	                        actions={this.props.actions}
-			/>);
+                    return (<Square
+                        type={types[s.type]}
+                        clickHandler={this.toggleWall.bind(this, s)}
+                        x={index2}
+                        y={index1}
+                        key={index2}
+                        actions={this.props.actions}
+                    />);
                 }.bind(this))}
-                </ol>)
+            </ol>)
         }.bind(this));
 
         return (
@@ -81,7 +96,7 @@ var Grid = React.createClass({
     },
 
     /**
-     * Finds all the GridSquares adjacent to this one, which haven't already been 
+     * Finds all the GridSquares adjacent to this one, which haven't already been
      * parsed
      *
      * @param {Object} sqs - The current wave of GridSquares

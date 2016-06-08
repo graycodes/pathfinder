@@ -6,6 +6,11 @@ module.exports = {
         return { type: types.FIND_PATH };
     },
 
+    findNext: function () {
+        console.log('findNext action');
+        return { type: types.FIND_NEXT };
+    },
+
     reset: function () {
         return { type: types.RESET };
     },

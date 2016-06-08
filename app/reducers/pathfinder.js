@@ -26,7 +26,7 @@ p.toggleWall = function (arr, coords) {
 p.findNext = function (state) {
     // if the state doesn't have any path, then start. Otherwise loop through the latest path queue;
     var adjacentTo = state.path.length === 0 ? this.getStart(state.size) : [0,0];
-    return this.getAdjacentFree(adjacentTo, state.size, state.walls, state.path);
+    return _.extend({}, state, { path: state.path.concat(this.getAdjacentFree(adjacentTo, state.size, state.walls, state.path)) });
 }
 
 p.getStart = function (size) {
