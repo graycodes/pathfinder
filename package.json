@@ -22,7 +22,7 @@
     "gulp-livereload": "^3.8.0",
     "gulp-mocha": "^2.1.0",
     "gulp-react": "^3.0.1",
-    "lodash": "^3.9.3",
+    "lodash": "^4.13.1",
     "reactify": "^1.1.1",
     "tiny-lr": "^0.1.5",
     "vinyl-source-stream": "^1.1.0"
