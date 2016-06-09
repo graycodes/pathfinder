@@ -28,6 +28,12 @@ describe('Pathfinder', function() {
             var state = { size: 3, walls: [], path: [] };
             expect(pathfinder.findNext(state)).to.deep.equal(_.extend(state, { path: [[0,0], [1,1], [0,2]] }));
         });
+        it('should return the right path, with existing path', function () {
+            var state = { size: 3, walls: [], path: [ [0,0], [1,1], [0,2] ] };
+            console.log(pathfinder.findNext(state).path);
+            console.log([ [0,0], [1,1], [0,2], [1,0], [2,1], [2,0] ]);
+            expect(pathfinder.findNext(state).path).to.deep.equal([ [0,0], [1,1], [0,2], [1,0], [2,1], [1,2] ]);
+        });
     });
 
     describe('getStart', function () {
@@ -39,14 +45,23 @@ describe('Pathfinder', function() {
         });
     });
 
+    describe('getEnd', function () {
+        it('should return the end when given a size', function () {
+            expect(pathfinder.getEnd(3)).to.deep.equal([2, 1]);
+            expect(pathfinder.getEnd(7)).to.deep.equal([6, 3]);
+            expect(pathfinder.getEnd(11)).to.deep.equal([10, 5]);
+            expect(pathfinder.getEnd(99)).to.deep.equal([98, 49]);
+        });
+    });
+
     describe('getAdjacentFree', function () {
         it('should return the filtered list of adjacent points', function () {
             expect(pathfinder.getAdjacentFree([0,1], 3, [], [])).to.deep.equal([[0,0], [1,1], [0,2]]);
-            expect(pathfinder.getAdjacentFree([0,2], 3, [], [])).to.deep.equal([[0,1], [1,2]]);
-            expect(pathfinder.getAdjacentFree([1,1], 3, [], [])).to.deep.equal([[1,0], [2,1], [1,2], [0,1]]);
+            expect(pathfinder.getAdjacentFree([0,2], 3, [], [])).to.deep.equal([[1,2]]);
+            expect(pathfinder.getAdjacentFree([1,1], 3, [], [])).to.deep.equal([[1,0], [2,1], [1,2]]);
             expect(pathfinder.getAdjacentFree([1,1], 3, [[1,0], [2,1], [1,2], [0,1]], [])).to.deep.equal([]);
             expect(pathfinder.getAdjacentFree([1,1], 3, [], [[1,0], [2,1], [1,2], [0,1]])).to.deep.equal([]);
-            expect(pathfinder.getAdjacentFree([1,1], 3, [[1,0], [2,1]], [])).to.deep.equal([[1,2], [0,1]]);
+            expect(pathfinder.getAdjacentFree([1,1], 3, [[1,0], [2,1]], [])).to.deep.equal([[1,2]]);
         });
     });
 
