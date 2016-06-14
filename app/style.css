@@ -47,10 +47,9 @@ body {
     background-color: lightblue;
 }
 .square.path {
-    background-color: red;
+    /*background-color: red;*/
 }
 
 .row {
 	clear: left;
 }
-

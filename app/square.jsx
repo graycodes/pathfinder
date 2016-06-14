@@ -8,9 +8,20 @@ var Square = React.createClass({
 
     render: function () {
         var classString = 'square ' + this.props.type;
+        var style = this.generateColour(this.props.step);
+
         return (
-            <li className={classString} onClick={this.clickHandler}></li>
+            <li className={classString} onClick={this.clickHandler} style={style}></li>
         );
+    },
+
+    generateColour: function (step) {
+        if (step == undefined) {
+            return {};
+        }
+        var hue = (this.props.step * 25.5) % 255;
+        var backgroundColor = "hsl(" + hue + ", 75%, 70%)";
+        return { backgroundColor: backgroundColor };
     }
 
 });

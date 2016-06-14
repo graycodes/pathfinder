@@ -28,6 +28,22 @@ var Grid = React.createClass({
             grid[w[0]][w[1]].type = 3;
         });
 
+        _.map(this.props.path, function (w) {
+            var step = -1;
+            this.props.steps.forEach(function (s, i) {
+                var thing = s[0];
+                var otherThing = [w];
+
+                if (_.intersectionWith(thing, otherThing, _.isEqual).length) {
+                    step = i;
+                }
+            });
+
+            if (step !== -1) {
+                grid[w[0]][w[1]].step = step;
+            }
+        }.bind(this));
+
         grid[0][~~(size / 2)].type = 1;
         grid[size - 1][~~(size / 2)].type = 1;
 
@@ -84,6 +100,7 @@ var Grid = React.createClass({
                         x={index2}
                         y={index1}
                         key={index2}
+                        step={s.step}
                         actions={this.props.actions}
                     />);
                 }.bind(this))}

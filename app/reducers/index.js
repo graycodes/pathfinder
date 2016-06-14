@@ -13,11 +13,7 @@ module.exports = function pathfinding(state, action) {
         case actions.RESET:
             return initialState;
         case actions.CLICK_SQUARE:
-            return {
-                size: state.size,
-                walls: pathfinder.toggleWall(state.walls, action.coords),
-                path: state.path
-            };
+            return _.extend({}, state, {walls: pathfinder.toggleWall(state.walls, action.coords)});
         default:
             return state;
     }

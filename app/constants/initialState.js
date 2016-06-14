@@ -1,5 +1,6 @@
 module.exports = {
-    size: 7,
+    size: 15,
     walls: [],
-    path: []
+    path: [],
+    pathInSteps: []
 };

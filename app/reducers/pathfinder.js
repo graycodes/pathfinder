@@ -24,18 +24,25 @@ p.toggleWall = function (arr, coords) {
 }
 
 p.findNext = function (state) {
-    var path, points;
+    var path, newPathSteps, points;
 
     points = state.path.length ? state.path : [this.getStart(state.size)];
 
-    path =  _.map(points, function (point) {
+    newPathSteps =  _.map(points, function (point) {
         return this.getAdjacentFree(point, state.size, state.walls, state.path);
     }.bind(this));
 
-    path = _.uniqWith(_.flatten(path), _.isEqual);
+    path = _.uniqWith(_.flatten(newPathSteps), _.isEqual);
     path = state.path.concat(path);
 
-    return _.extend({}, state, { path: path });
+    newPathSteps = [_.flatten(newPathSteps)];
+
+    var pathInSteps = [];
+    pathInSteps = pathInSteps.concat(state.pathInSteps);
+    console.log('pis', pathInSteps);
+    pathInSteps.push(newPathSteps);
+
+    return _.extend({}, state, { path: path }, { pathInSteps: pathInSteps });
 }
 
 p.getStart = function (size) {

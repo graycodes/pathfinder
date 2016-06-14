@@ -26,12 +26,10 @@ describe('Pathfinder', function() {
     describe('findNext', function () {
         it('should return a list of points next to the start, given an empty grid', function () {
             var state = { size: 3, walls: [], path: [] };
-            expect(pathfinder.findNext(state)).to.deep.equal(_.extend(state, { path: [[0,0], [1,1], [0,2]] }));
+            expect(pathfinder.findNext(state).path).to.deep.equal([[0,0], [1,1], [0,2]]);
         });
-        it('should return the right path, with existing path', function () {
+        it('should return the right path, with existing path passed in', function () {
             var state = { size: 3, walls: [], path: [ [0,0], [1,1], [0,2] ] };
-            console.log(pathfinder.findNext(state).path);
-            console.log([ [0,0], [1,1], [0,2], [1,0], [2,1], [2,0] ]);
             expect(pathfinder.findNext(state).path).to.deep.equal([ [0,0], [1,1], [0,2], [1,0], [2,1], [1,2] ]);
         });
     });
