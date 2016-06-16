@@ -110,6 +110,31 @@ describe('Pathfinder', function() {
             expect(pathfinder.pointsAreEqual([3,1], [2,2])).to.equal(false);
             expect(pathfinder.pointsAreEqual([4,1], [1,7])).to.equal(false);
         });
-    })
+    });
+
+    describe('endFound', function () {
+        it('should know when the end is found', function () {
+            var pathIncludingEnd = [ [0,0], [0,2], [2,1] ];
+            expect(pathfinder.endFound(pathIncludingEnd, 3)).to.equal(true);
+        });
+        it('should know when the end isn`t found', function () {
+            var pathIncludingEnd = [ [0,0], [0,2] ];
+            expect(pathfinder.endFound(pathIncludingEnd, 3)).to.equal(false);
+        });
+    });
+
+
+    describe('getFinalPath', function () {
+        it('should return the final fastest path', function () {
+            var pathInSteps = [
+                [ [0,0], [0,2], [1,1] ],
+                [ [1,0], [2,1], [1,2] ],
+             ];
+            expect(pathfinder.getFinalPathInSteps(pathInSteps, 3)).to.equal([
+                [ [1,1] ],
+                [ [2,1] ]
+            ]);
+        });
+    });
 
 });

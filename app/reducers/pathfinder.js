@@ -23,6 +23,14 @@ p.toggleWall = function (arr, coords) {
     }
 }
 
+p.nextStep = function (state) {
+    if (this.endFound()) {
+        return _.extend({}, state, { finalPath: this.getFinalPath(state.pathInSteps, state.size) } );
+    }
+
+    return this.findNext(state);
+}
+
 p.findNext = function (state) {
     var path, newPathSteps, points;
 
@@ -55,8 +63,8 @@ p.getEnd = function (size) {
 
 p.getAdjacentFree = function (start, size, walls, path) {
     var notOffGrid = _.partial(this.notOffGrid, size);
-    var notWall = _.partial(this.notX, walls);
-    var notPath = _.partial(this.notX, path);
+    var notWall = _.partial(this.notX.bind(this), walls);
+    var notPath = _.partial(this.notX.bind(this), path);
     var notStart = function (point) { return !_.isEqual(point, this.getStart(size))}.bind(this);
     return _(this.getAdjacent(start))
             .filter(notWall)
@@ -83,13 +91,31 @@ p.notOffGrid = function (size, point) {
     return x >= 0 && x < size && y >= 0 && y < size;
 }
 
-p.notX = function (walls, point) {
+p.isX = function (walls, point) {
     var intersection = _.intersectionWith(walls, [point], _.isEqual);
-    return intersection.length === 0;
+    return intersection.length !== 0;
+}
+
+p.notX = function (walls, point) {
+    return !this.isX(walls, point);
 }
 
 p.pointsAreEqual = function (pointA, pointB) {// TODO: remove
     return pointA[0] === pointB[0] && pointA[1] === pointB[1];
+}
+
+p.endFound = function (path, size) {
+    var end = this.getEnd(size);
+    return this.isX(path, end);
+}
+
+p.getFinalPathInSteps = function (pathInSteps, size) {
+    // for each step, starting at the last one, check ever increasing adjacency
+    var path = _.reverse(pathInSteps);
+    var currentPoint = this.getEnd(this.size);
+    path = _.map(path, function (step) {
+        
+    });
 }
 
 module.exports = new Pathfinder();

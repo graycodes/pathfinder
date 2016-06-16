@@ -9,7 +9,7 @@ module.exports = function pathfinding(state, action) {
             // Here, we need to do some heavy lifting
             return state;
         case actions.FIND_NEXT:
-            return pathfinder.findNext(state);
+            return pathfinder.nextStep(state);
         case actions.RESET:
             return initialState;
         case actions.CLICK_SQUARE:
