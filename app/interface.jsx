@@ -9,7 +9,7 @@ var Interface = React.createClass({
 
     render: function () {
         return (
-            <div>
+            <div className="interface">
                 <button onClick={this.clickReset}>Reset</button>
                 <button onClick={this.clickFind}>Find Path</button>
                 <button onClick={this.clickFindNext}>Find Next</button>

@@ -128,11 +128,19 @@ p.getFinalPath = function (pathInSteps, size) {
 
     for (; step >= 0; step--) {
         var adjacentSquares = _.map(currentPoints, currentPoint => {
-            console.log('currentPoint', currentPoint, step);
+            // console.log('currentPoint', currentPoint, step);
             return _.intersectionWith(this.getAdjacent(currentPoint), pathInSteps[step][0], _.isEqual);
-        })[0];
+        });
+
+        // console.log('adjlen', adjacentSquares.length);
+
+        if (adjacentSquares.length > 1) {
+            console.log('holy shit', adjacentSquares);
+        }
+
+        adjacentSquares = _.flatten(_.uniqWith(adjacentSquares, _.isEqual));
         // console.log('gfpis', pathInSteps[step][0]);
-        console.log('adj', adjacentSquares);
+        // console.log('adj', adjacentSquares, adjacentSquares.length);
         finalPath = finalPath.concat(adjacentSquares);
         // console.log('fp', finalPath);
         // currentPoints is the intersection of the 'adjacentSquares' and the prev step
@@ -141,10 +149,10 @@ p.getFinalPath = function (pathInSteps, size) {
         //     return _.intersectionWith(this.getAdjacent(adjacentSquare), pathInSteps[step-1][0], _.isEqual);
         // })[0];
         currentPoints = adjacentSquares;
-        console.log('cp', currentPoints);
+        // console.log('cp', currentPoints);
     }
 
-    console.log('finally', finalPath);
+    // console.log('finally', finalPath);
 
     return finalPath;
 }

@@ -8,7 +8,9 @@ var Square = React.createClass({
     },
 
     render: function () {
-        var classString = 'square ' + this.props.type;
+        var classString = 'square ' + this.props.type + ' ' +
+            (this.inFinalPath([this.props.x, this.props.y], this.props.finalPath) ? 'final' : '') +
+            ' stepNum' + this.props.step;
         var style = this.generateColour(this.props.step, this.props.finalPath);
 
         return (
@@ -21,13 +23,14 @@ var Square = React.createClass({
             return {};
         }
         var hue = (this.props.step * 12.25);
-        var alpha = this.inFinalPath([this.props.x, this.props.y], finalPath) ? '1' : '0.5';
+        var isFinalPath = this.inFinalPath([this.props.x, this.props.y], finalPath);
+        var alpha = isFinalPath ? '1' : '0.3';
+//        var borderColor = isFinalPath ? 'black' : 'gray';
         var backgroundColor = "hsla(" + hue + ", 75%, 70%, " + alpha + ")";
-        return { backgroundColor: backgroundColor };
+        return { backgroundColor: backgroundColor/*, borderColor: borderColor*/ };
     },
 
     inFinalPath: function (point, finalPath) {
-        console.log('ifp', point, finalPath);
         return _.intersectionWith([point], finalPath, _.isEqual).length;
     }
 

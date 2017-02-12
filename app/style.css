@@ -53,3 +53,28 @@ body {
 .row {
 	clear: left;
 }
+
+.final {
+    border-color: black;
+}
+
+.interface {
+    height: 60px;
+    width: 100%;
+    line-height: 60px;
+    background: lightblue;
+    margin-bottom: 20px;
+}
+.interface button {
+    height: 60px;
+    padding: 20px;
+    line-height: 0;
+    margin: -1px 20px 0 0;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+}
+.interface button:hover {
+    background: white;
+    cursor: pointer;
+}
