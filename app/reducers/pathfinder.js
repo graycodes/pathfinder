@@ -24,8 +24,12 @@ p.toggleWall = function (arr, coords) {
 }
 
 p.nextStep = function (state) {
-    if (this.endFound()) {
-        return _.extend({}, state, { finalPath: this.getFinalPath(state.pathInSteps, state.size) } );
+    if (this.endFound(state.path, state.size)) {
+        return _.extend({}, state, {
+            finalPath: this.getFinalPath(state.pathInSteps, state.size),
+            finished: true,
+            pathInSteps: state.pathInSteps,
+        } );
     }
 
     return this.findNext(state);
@@ -47,7 +51,7 @@ p.findNext = function (state) {
 
     var pathInSteps = [];
     pathInSteps = pathInSteps.concat(state.pathInSteps);
-    console.log('pis', pathInSteps);
+    // console.log('pis', pathInSteps, newPathSteps);
     pathInSteps.push(newPathSteps);
 
     return _.extend({}, state, { path: path }, { pathInSteps: pathInSteps });
@@ -81,7 +85,12 @@ p.getAdjacent = function (start) {// 0, 1
         [x, y - 1],
         [x + 1, y],
         [x, y + 1],
-        [x - 1, y]
+        [x - 1, y],
+
+        // [x + 1, y + 1],
+        // [x + 1, y - 1],
+        // [x - 1, y - 1],
+        // [x - 1, y + 1]
     ];
 }
 
@@ -109,13 +118,46 @@ p.endFound = function (path, size) {
     return this.isX(path, end);
 }
 
-p.getFinalPathInSteps = function (pathInSteps, size) {
+p.getFinalPath = function (pathInSteps, size) {
     // for each step, starting at the last one, check ever increasing adjacency
-    var path = _.reverse(pathInSteps);
-    var currentPoint = this.getEnd(this.size);
-    path = _.map(path, function (step) {
-        
-    });
+    var path = pathInSteps;
+    var currentPoints = [this.getEnd(size)];
+    var finalPath = [];
+
+    var step = pathInSteps.slice(0, -1).length - 1;
+
+    for (; step >= 0; step--) {
+        var adjacentSquares = _.map(currentPoints, currentPoint => {
+            console.log('currentPoint', currentPoint, step);
+            return _.intersectionWith(this.getAdjacent(currentPoint), pathInSteps[step][0], _.isEqual);
+        })[0];
+        // console.log('gfpis', pathInSteps[step][0]);
+        console.log('adj', adjacentSquares);
+        finalPath = finalPath.concat(adjacentSquares);
+        // console.log('fp', finalPath);
+        // currentPoints is the intersection of the 'adjacentSquares' and the prev step
+        // currentPoints = _.map(adjacentSquares, adjacentSquare => {
+        //     // console.log('adjy', adjacentSquare, this.getAdjacent(adjacentSquare));
+        //     return _.intersectionWith(this.getAdjacent(adjacentSquare), pathInSteps[step-1][0], _.isEqual);
+        // })[0];
+        currentPoints = adjacentSquares;
+        console.log('cp', currentPoints);
+    }
+
+    console.log('finally', finalPath);
+
+    return finalPath;
+}
+
+p.findPath = function (state) {
+    var maxSteps = 100;
+    var newState = state;
+    while (maxSteps-- && !newState.finished) {
+        newState = this.nextStep(newState);
+    }
+    return newState;
 }
 
 module.exports = new Pathfinder();
+
+window.pat = new Pathfinder();

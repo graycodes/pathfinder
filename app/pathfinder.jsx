@@ -8,9 +8,10 @@ var Interface = require('./interface.jsx');
 var Pathfinder = React.createClass({
 
     render: function () {
+        console.log('PATHFINDER', this.props.finalPath);
         return (
                 <div>
-	                <Grid size={this.props.size} walls={this.props.walls} path={this.props.path} steps={this.props.steps} actions={this.props.actions} />
+	                <Grid size={this.props.size} walls={this.props.walls} path={this.props.path} steps={this.props.steps} actions={this.props.actions} finalPath={this.props.finalPath} />
 	                <Interface actions={this.props.actions} />
                 </div>
         );

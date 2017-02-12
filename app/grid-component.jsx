@@ -91,6 +91,8 @@ var Grid = React.createClass({
             }
         }
 
+        console.log('GRID', this.props.finalPath);
+
         grid = _.map(gridFlipped, function (row, index1) {
             return (<ol className="row" key={index1}>
                 {_.map(row, function (s, index2) {
@@ -101,6 +103,7 @@ var Grid = React.createClass({
                         y={index1}
                         key={index2}
                         step={s.step}
+                        finalPath={this.props.finalPath}
                         actions={this.props.actions}
                     />);
                 }.bind(this))}

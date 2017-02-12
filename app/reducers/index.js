@@ -7,7 +7,7 @@ module.exports = function pathfinding(state, action) {
         case actions.FIND_PATH:
             console.log('findPath reducer');
             // Here, we need to do some heavy lifting
-            return state;
+            return pathfinder.findPath(state);
         case actions.FIND_NEXT:
             return pathfinder.nextStep(state);
         case actions.RESET:

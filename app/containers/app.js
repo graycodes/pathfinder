@@ -17,10 +17,12 @@ var App = React.createClass({
         var walls = this.props.walls;
         var path = this.props.path;
         var steps = this.props.steps;
+        var finalPath = this.props.finalPath;
+        var finished = this.props.finished;
 
         return (
             <div>
-    	        <Pathfinder size={size} walls={walls} path={path} steps={steps} actions={actions} />
+    	        <Pathfinder size={size} walls={walls} path={path} steps={steps} actions={actions} finalPath={finalPath} finished={finished} />
             </div>
         );
     }
@@ -36,7 +38,9 @@ function mapStateToProps(state) {
         size: state.size,
         walls: state.walls,
         path: state.path,
-        steps: state.pathInSteps
+        steps: state.pathInSteps,
+        finalPath: state.finalPath,
+        finished: state.finished,
     }
 };
 

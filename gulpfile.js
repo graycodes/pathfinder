@@ -99,7 +99,7 @@ gulp.task('watch', function () {
     //gulp.watch(['app/*.*', 'test/*.js'], ['test']);
 
     _.each(watches, function (w) {
-        w.on('change', notifyLivereload);
+        //w.on('change', notifyLivereload);
     });
 });
 
