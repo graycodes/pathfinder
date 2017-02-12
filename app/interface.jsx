@@ -10,9 +10,11 @@ var Interface = React.createClass({
     render: function () {
         return (
             <div className="interface">
+                <h1>Pathfinder</h1>
+
                 <button onClick={this.clickReset}>Reset</button>
                 <button onClick={this.clickFind}>Find Path</button>
-                <button onClick={this.clickFindNext}>Find Next</button>
+                <button className="hide" onClick={this.clickFindNext}>Find Next</button>
             </div>
         )
     },

@@ -22,7 +22,7 @@ var Square = React.createClass({
         if (step == undefined) {
             return {};
         }
-        var hue = (this.props.step * 12.25);
+        var hue = (this.props.step * 25.5);
         var isFinalPath = this.inFinalPath([this.props.x, this.props.y], finalPath);
         var alpha = isFinalPath ? '1' : '0.3';
 //        var borderColor = isFinalPath ? 'black' : 'gray';

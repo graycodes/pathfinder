@@ -65,16 +65,43 @@ body {
     background: lightblue;
     margin-bottom: 20px;
 }
+.interface h1 {
+    display: inline-block;
+    float: left;
+    margin: 0 20px;
+}
 .interface button {
     height: 60px;
     padding: 20px;
     line-height: 0;
-    margin: -1px 20px 0 0;
+    margin: 0 20px 0 0;
     -webkit-appearance: none;
     background: none;
     border: none;
+    float: left;
 }
 .interface button:hover {
     background: white;
     cursor: pointer;
+}
+
+.grid {
+    margin-left: 20px;
+    display: inline-block;
+    float: left;
+    width: 600px;
+}
+.grid li {
+    cursor: pointer;
+}
+
+.instructions {
+    margin-left: 20px;
+    display: inline-block;
+    width: calc(100% - 640px);
+    min-width: 200px;
+}
+
+.hide {
+    display: none;
 }

@@ -109,7 +109,7 @@ var Grid = React.createClass({
         }.bind(this));
 
         return (
-            <div>{grid}</div>
+            <div className="grid">{grid}</div>
         );
     },
 
